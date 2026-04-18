@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import es.uclm.PlayTime_Code.business.entity.Inmueble;
+import es.uclm.PlayTime_Code.business.entity.Usuario;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 @Controller
@@ -35,44 +37,7 @@ public class HomeController {
         List<Inmueble> inmuebles = inmuebleService.listarTodos();
 
         // 🔎 Filtros dinámicos
-        if (search != null && !search.isBlank()) {
-            String searchLower = search.toLowerCase();
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getTitulo() != null && i.getTitulo().toLowerCase().contains(searchLower))
-                    .toList();
-        }
 
-        if (ciudad != null && !ciudad.isBlank()) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getCiudad() != null && i.getCiudad().equalsIgnoreCase(ciudad))
-                    .toList();
-        }
-
-        if (habitaciones != null && habitaciones > 0) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getNumHabitaciones() >= habitaciones)
-                    .toList();
-        }
-
-        if (banos != null && banos > 0) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getNumBanos() >= banos)
-                    .toList();
-        }
-        
-        if (tipoReserva != null && !tipoReserva.isBlank()) {
-            boolean directa = tipoReserva.equalsIgnoreCase("directa");
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.isReservaInmediata() == directa)
-                    .toList();
-        }
-        
-        if (tipoReembolso != null && !tipoReembolso.isBlank()) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getPoliticaCancelacion() != null
-                            && i.getPoliticaCancelacion().name().equalsIgnoreCase(tipoReembolso))
-                    .toList();
-        }
 
 
 
@@ -85,12 +50,7 @@ public class HomeController {
         model.addAttribute("banos", banos);
 
         // Lista de ciudades disponibles (para combo o filtro)
-        List<String> ciudades = inmuebles.stream()
-                .map(Inmueble::getCiudad)
-                .filter(c -> c != null && !c.isBlank())
-                .distinct()
-                .toList();
-        model.addAttribute("ciudades", ciudades);
+
 
         return "home";
     }
