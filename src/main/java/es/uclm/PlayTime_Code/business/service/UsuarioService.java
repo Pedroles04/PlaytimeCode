@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import es.uclm.PlayTime_Code.business.entity.Rol;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
+import es.uclm.PlayTime_Code.persistence.UsuarioDAO;
 
 @Service
 public class UsuarioService {
