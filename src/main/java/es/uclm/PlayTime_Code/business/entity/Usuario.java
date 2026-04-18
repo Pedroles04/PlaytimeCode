@@ -13,6 +13,11 @@ import jakarta.persistence.FetchType;
 
 @Entity
 @Table(name = "usuarios")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Usuario {
 
     @Id
