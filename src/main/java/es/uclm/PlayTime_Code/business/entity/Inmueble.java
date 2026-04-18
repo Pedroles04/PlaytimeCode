@@ -1,7 +1,6 @@
 package es.uclm.PlayTime_Code.business.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -10,11 +9,7 @@ import java.util.ArrayList;
  */
 @Entity
 @Table(name = "inmuebles")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+
 public class Inmueble {
 
     @Id

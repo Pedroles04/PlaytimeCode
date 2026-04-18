@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
+import es.uclm.PlayTime_Code.persistence.InmuebleDAO;
 
 import java.util.List;
 

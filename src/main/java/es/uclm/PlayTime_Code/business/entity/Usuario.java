@@ -2,7 +2,6 @@ package es.uclm.PlayTime_Code.business.entity;
 
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.ManyToMany;
@@ -14,11 +13,6 @@ import jakarta.persistence.FetchType;
 
 @Entity
 @Table(name = "usuarios")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class Usuario {
 
     @Id

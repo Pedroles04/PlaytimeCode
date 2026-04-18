@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
+import es.uclm.PlayTime_Code.business.service.InmuebleService;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 @Controller
@@ -34,7 +35,6 @@ public class HomeController {
         // Obtenemos usuario actual de la sesión (puede ser null si no está logueado)
         Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
 
-        List<Inmueble> inmuebles = inmuebleService.listarTodos();
 
         // 🔎 Filtros dinámicos
 
@@ -42,12 +42,7 @@ public class HomeController {
 
 
         // Atributos para la vista
-        model.addAttribute("usuarioActual", usuarioActual);
-        model.addAttribute("inmuebles", inmuebles);
-        model.addAttribute("busqueda", search);
-        model.addAttribute("ciudadSeleccionada", ciudad);
-        model.addAttribute("habitaciones", habitaciones);
-        model.addAttribute("banos", banos);
+
 
         // Lista de ciudades disponibles (para combo o filtro)
 
