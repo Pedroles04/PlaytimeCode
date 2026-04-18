@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario - Inicio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #d9d9d9;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 3px solid #333;
+        }
+
+        .user-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 16px;
+            width: 400px;
+        }
+
+        .search-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #2196F3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .filter-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .filter-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .filter-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 20px;
+            min-width: 250px;
+            z-index: 100;
+        }
+
+        .filter-dropdown.active {
+            display: block;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .menu-icon {
+            background-color: #2196F3;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .menu-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 10px;
+            min-width: 200px;
+            z-index: 100;
+        }
+
+        .menu-dropdown.active {
+            display: block;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-item:hover {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .inmuebles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .inmueble-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .inmueble-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .inmueble-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #e0e0e0;
+        }
+
+        .inmueble-info {
+            padding: 15px;
+        }
+
+        .inmueble-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .inmueble-details {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .inmueble-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+            Usuario
+        </div>
+
+		
+        <div class="search-container">
+            <form th:action="@{/home}" method="get" style="display: contents;">
+                <div class="search-box">
+					<input type="text" name="search" th:value="${busqueda}" placeholder="Buscar inmuebles...">
+                    <div class="filter-icon" onclick="toggleFilter()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                        <div class="filter-dropdown" id="filterDropdown" onclick="event.stopPropagation()">
+                            <div class="filter-group">
+                                <label>Baños</label>
+                                <input type="number" name="banos" th:value="${banos}" min="1" placeholder="Número de baños">
+                            </div>
+                            <div class="filter-group">
+                                <label>Ciudad</label>
+                                <select name="ciudad">
+                                    <option value="">Seleccionar ciudad</option>
+                                    <option th:each="ciudad : ${ciudades}" 
+                                            th:value="${ciudad}" 
+                                            th:text="${ciudad}"
+                                            th:selected="${ciudad == ciudadSeleccionada}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Habitaciones</label>
+                                <input type="number" name="habitaciones" th:value="${habitaciones}" min="1" placeholder="Número de habitaciones">
+                            </div>
+							
+							<div class="filter-group">
+							    <label>Tipo de reserva</label>
+							    <select name="tipoReserva">
+							        <option value="">Cualquiera</option>
+							        <option value="directa" th:selected="${tipoReserva == 'directa'}">Directa</option>
+							        <option value="no_directa" th:selected="${tipoReserva == 'no_directa'}">No directa</option>
+							    </select>
+							</div>
+
+							<div class="filter-group">
+							    <label>Tipo de reembolso</label>
+							    <select name="tipoReembolso">
+							        <option value="">Cualquiera</option>
+							        <option value="REEMBOLSABLE" th:selected="${tipoReembolso == 'REEMBOLSABLE'}">Reembolsable</option>
+							        <option value="REEMBOLSABLE_50" th:selected="${tipoReembolso == 'REEMBOLSABLE_50'}">50% Reembolso</option>
+							        <option value="NO_REEMBOLSABLE" th:selected="${tipoReembolso == 'NO_REEMBOLSABLE'}">No reembolsable</option>
+							    </select>
+							</div>
+
+                        </div>
+                    </div>
+                    <button type="submit" class="search-icon" style="border: none; background-color: #2196F3;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="menu-icon" onclick="toggleMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <div class="menu-dropdown" id="menuDropdown">
+                <a th:href="@{/usuarios/login}" class="menu-item">Iniciar sesión</a>
+                <a th:href="@{/usuarios/registro}" class="menu-item">Registrarse</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-title">Inmuebles disponibles</div>
+        
+        <div class="inmuebles-grid">
+            <div th:each="inmueble : ${inmuebles}" class="inmueble-card"
+                 th:onclick="'window.location.href=\'/inmueble/' + ${inmueble.id} + '\''">
+                <img src="/images/no-image.png"
+                     th:alt="${inmueble.titulo}" 
+                     class="inmueble-image">
+                <div class="inmueble-info">
+                    <div class="inmueble-title" th:text="${inmueble.titulo}">Título del inmueble</div>
+                    <div class="inmueble-details">
+                        <span th:text="${inmueble.ciudad}">Ciudad</span> | 
+                        <span th:text="${inmueble.numHabitaciones}">0</span> hab | 
+                        <span th:text="${inmueble.numBanos}">0</span> baños
+                    </div>
+                    <div class="inmueble-price" th:text="'€' + ${inmueble.precioPorNoche} + '/noche'">€0/noche</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function toggleFilter() {
+            event.stopPropagation();
+            const dropdown = document.getElementById('filterDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Cerrar dropdowns al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            const menuIcon = event.target.closest('.menu-icon');
+            const filterIcon = event.target.closest('.filter-icon');
+            
+            if (!menuIcon) {
+                document.getElementById('menuDropdown').classList.remove('active');
+            }
+            if (!filterIcon) {
+                document.getElementById('filterDropdown').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
