@@ -1,4 +1,4 @@
-package src.main.java.es.uclm.PlayTime_Code.business.controller;
+package es.uclm.PlayTime_Code.business.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
