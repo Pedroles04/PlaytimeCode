@@ -9,7 +9,11 @@ import java.util.ArrayList;
  */
 @Entity
 @Table(name = "inmuebles")
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Inmueble {
 
     @Id
@@ -25,9 +29,12 @@ public class Inmueble {
     private int numHabitaciones;
     private int numBanos;
 
+    /** Indica si se permite reserva directa sin aprobación. */
     private boolean reservaInmediata;
-   
-
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "politica_cancelacion", nullable = false)
+    private PoliticaCancelacion politicaCancelacion = PoliticaCancelacion.REEMBOLSABLE;
 
     /** Propietario que ha publicado el inmueble. */
     @ManyToOne
