@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propietario - Inicio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; }
+
+        .header { background-color: #d9d9d9; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 28px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .user-icon { width: 50px; height: 50px; background-color: #555; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; border: 3px solid #333; }
+        .user-icon svg { width: 30px; height: 30px; }
+        .menu-icon { background-color: #2196F3; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; position: relative; }
+        .menu-icon svg { width: 24px; height: 24px; }
+        .menu-dropdown { display: none; position: absolute; top: 60px; right: 0; background-color: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); padding: 10px; min-width: 200px; z-index: 100; }
+        .menu-dropdown.active { display: block; }
+        .menu-item { padding: 12px 20px; cursor: pointer; border-radius: 5px; background-color: #e0e0e0; font-weight: 500; color: #333; margin-bottom: 5px; }
+        .menu-item:hover { background-color: #2196F3; color: white; }
+
+        .container { padding: 40px; }
+        .section-title { font-size: 32px; font-weight: bold; margin-bottom: 30px; }
+
+        .inmuebles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
+        .inmueble-card { background-color: transparent; border: 3px solid #4CAF50; border-radius: 8px; height: 250px; position: relative; cursor: pointer; transition: transform 0.2s; padding: 10px; }
+        .inmueble-card:hover { transform: translateY(-5px); }
+        .card-dropdown { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); padding: 10px; min-width: 180px; z-index: 10; }
+        .card-dropdown.active { display: block; }
+        .card-option { padding: 12px 20px; cursor: pointer; border-radius: 5px; margin-bottom: 5px; background-color: #e0e0e0; font-weight: 500; color: #333; }
+        .card-option:hover { background-color: #4CAF50; color: white; }
+        .card-option a { text-decoration: none; color: inherit; display: block; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+            </div>
+   			 <span th:text="${usuarioActual.nombre}">Nombre Usuario</span>
+        </div>
+
+		
+        <!-- MENU -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <div class="menu-dropdown" id="menuDropdown">
+                <div class="menu-item"><a th:href="@{/usuarios/logout}">Cerrar sesión</a></div>
+                <div class="menu-item"><a th:href="@{/inmuebles/registrar}">Registrar inmueble</a></div>
+                <div class="menu-item"><a th:href="@{/propietario/solicitudes}">Solicitudes reserva</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="container">
+        <div class="section-title">Inmuebles del propietario</div>
+        <div class="inmuebles-grid">
+            <p th:if="${#lists.isEmpty(inmuebles)}">No tienes inmuebles registrados.</p>
+
+            <div th:each="inmueble, iterStat : ${inmuebles}"
+                 class="inmueble-card"
+                 th:id="'inmueble-' + ${iterStat.index}"
+                 th:onclick="'toggleCard(event,' + ${iterStat.index} + ')'">
+
+                <div th:text="${inmueble.titulo}" style="font-weight: bold; margin-bottom: 5px;"></div>
+                <div th:text="${inmueble.direccion}" style="color: #555;"></div>
+
+                <div class="card-dropdown" th:id="'cardDropdown' + ${iterStat.index}">
+                    <div class="card-option"><a th:href="@{'/inmuebles/editar/' + ${inmueble.id}}">Editar</a></div>
+                    <div class="card-option">
+					    <form th:action="@{'/propietario/eliminar/' + ${inmueble.id}}" method="post">
+					        <button type="submit" class="btn btn-danger">Eliminar</button>
+					    </form>
+					</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function toggleCard(event, index) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('cardDropdown' + index);
+            document.querySelectorAll('.card-dropdown').forEach(d => {
+                if (d.id !== 'cardDropdown' + index) d.classList.remove('active');
+            });
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const menuIcon = event.target.closest('.menu-icon');
+            const inmuebleCard = event.target.closest('.inmueble-card');
+            if (!menuIcon) document.getElementById('menuDropdown').classList.remove('active');
+            if (!inmuebleCard) document.querySelectorAll('.card-dropdown').forEach(d => d.classList.remove('active'));
+        })
+    </script>
+</body>
+</html>

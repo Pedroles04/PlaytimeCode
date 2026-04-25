@@ -18,7 +18,47 @@ public class InmuebleService {
     @Autowired
     private InmuebleDAO inmuebleDAO;
 
+    public boolean registrarInmueble(Usuario propietario, String titulo, String direccion, String descripcion,
+            double precio, boolean reservaDirecta, String ciudad,
+            int numHabitaciones, int numBanos,
+            PoliticaCancelacion politicaCancelacion) {
+			try {
+				Inmueble inmueble = new Inmueble();
+				inmueble.setPropietario(propietario);
+				inmueble.setTitulo(titulo);
+				inmueble.setDireccion(direccion);
+				inmueble.setCiudad(ciudad);
+				inmueble.setDescripcion(descripcion);
+				inmueble.setPrecioPorNoche(precio);
+				inmueble.setReservaInmediata(reservaDirecta);
+				inmueble.setNumHabitaciones(numHabitaciones);
+				inmueble.setNumBanos(numBanos);
+				inmueble.setPoliticaCancelacion(politicaCancelacion); // 🔹 Nuevo campo
+				inmuebleDAO.guardar(inmueble);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+    }
 
+
+    public boolean registrarInmueble(Usuario propietario,
+                                     String titulo,
+                                     String direccion,
+                                     String descripcion,
+                                     double precioPorNoche,
+                                     boolean reservaDirecta) {
+        return registrarInmueble(propietario, titulo, direccion, descripcion,
+                precioPorNoche, reservaDirecta, "", 0, 0, PoliticaCancelacion.REEMBOLSABLE);
+    }
+    
+    public void eliminar(Long id) {
+        Inmueble inmueble = buscarPorId(id);
+        if (inmueble != null) {
+            inmuebleDAO.eliminar(inmueble);
+        }
+    }
     
 
 
