@@ -8,20 +8,12 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.FetchType;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+
+
 
 
 @Entity
 @Table(name = "usuarios")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class Usuario {
 
     @Id
@@ -38,29 +30,37 @@ public class Usuario {
     private String apellidos;
     private String direccion;
 
-    // ⚙️ Campo Enum para el rol
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Rol rol; // PROPIETARIO, INQUILINO o USUARIO_NORMAL
+    private Rol rol;
+
+    // Constructor vacío
+    public Usuario() {}
+
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getLogin() { return login; }
+    public void setLogin(String login) { this.login = login; }
+
+    public String getPass() { return pass; }
+    public void setPass(String pass) { this.pass = pass; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getApellidos() { return apellidos; }
+    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
+
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
 
     // Métodos de ayuda
-    public boolean esPropietario() {
-        return rol == Rol.PROPIETARIO;
-    }
-
-    public boolean esInquilino() {
-        return rol == Rol.INQUILINO;
-    }
-
-    public boolean esUsuarioNormal() {
-        return rol == Rol.USUARIO_NORMAL;
-    }
-    
-
-
-
-    
-
-
-
+    public boolean esPropietario() { return rol == Rol.PROPIETARIO; }
+    public boolean esInquilino() { return rol == Rol.INQUILINO; }
+    public boolean esUsuarioNormal() { return rol == Rol.USUARIO_NORMAL; }
 }

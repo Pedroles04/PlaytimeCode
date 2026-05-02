@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import es.uclm.PlayTime_Code.business.entity.Rol;
+import es.uclm.PlayTime_Code.business.entity.Usuario;
+import es.uclm.PlayTime_Code.business.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller

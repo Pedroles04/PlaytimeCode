@@ -1,24 +1,13 @@
 package es.uclm.PlayTime_Code.business.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+
 
 /**
  * Representa una propiedad publicada por un propietario.
  */
 @Entity
 @Table(name = "inmuebles")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class Inmueble {
 
     @Id
@@ -29,22 +18,53 @@ public class Inmueble {
     private String descripcion;
     private String direccion;
     private String ciudad;
-
     private double precioPorNoche;
     private int numHabitaciones;
     private int numBanos;
-
-    /** Indica si se permite reserva directa sin aprobación. */
     private boolean reservaInmediata;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "politica_cancelacion", nullable = false)
     private PoliticaCancelacion politicaCancelacion = PoliticaCancelacion.REEMBOLSABLE;
 
-    /** Propietario que ha publicado el inmueble. */
     @ManyToOne
     @JoinColumn(name = "propietario_id", nullable = false)
     private Usuario propietario;
-    
 
+    // Constructor vacío
+    public Inmueble() {}
+
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
+
+    public String getCiudad() { return ciudad; }
+    public void setCiudad(String ciudad) { this.ciudad = ciudad; }
+
+    public double getPrecioPorNoche() { return precioPorNoche; }
+    public void setPrecioPorNoche(double precioPorNoche) { this.precioPorNoche = precioPorNoche; }
+
+    public int getNumHabitaciones() { return numHabitaciones; }
+    public void setNumHabitaciones(int numHabitaciones) { this.numHabitaciones = numHabitaciones; }
+
+    public int getNumBanos() { return numBanos; }
+    public void setNumBanos(int numBanos) { this.numBanos = numBanos; }
+
+    public boolean isReservaInmediata() { return reservaInmediata; }
+    public void setReservaInmediata(boolean reservaInmediata) { this.reservaInmediata = reservaInmediata; }
+
+    public PoliticaCancelacion getPoliticaCancelacion() { return politicaCancelacion; }
+    public void setPoliticaCancelacion(PoliticaCancelacion politicaCancelacion) { this.politicaCancelacion = politicaCancelacion; }
+
+    public Usuario getPropietario() { return propietario; }
+    public void setPropietario(Usuario propietario) { this.propietario = propietario; }
 }
