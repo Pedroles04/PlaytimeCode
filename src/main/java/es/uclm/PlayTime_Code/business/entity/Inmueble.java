@@ -3,6 +3,11 @@ package es.uclm.PlayTime_Code.business.entity;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 
 /**
  * Representa una propiedad publicada por un propietario.
