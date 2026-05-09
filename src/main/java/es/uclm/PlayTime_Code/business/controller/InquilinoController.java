@@ -1,17 +1,19 @@
-package ISO2_26.UCLM.business.controller;
+package es.uclm.PlayTime_Code.business.controller;
 
-import ISO2_26.UCLM.business.entity.Inmueble;
-import ISO2_26.UCLM.business.entity.Usuario;
-import ISO2_26.UCLM.business.entity.Reserva;
-import ISO2_26.UCLM.business.service.InmuebleService;
-import ISO2_26.UCLM.business.service.UsuarioService;
-import ISO2_26.UCLM.business.service.ReservaService;
+
 import jakarta.servlet.http.HttpSession;
+
+import org.hibernate.engine.jndi.spi.JndiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+
+import es.uclm.PlayTime_Code.business.entity.Inmueble;
+import es.uclm.PlayTime_Code.business.entity.Usuario;
+import es.uclm.PlayTime_Code.business.service.InmuebleService;
+import es.uclm.PlayTime_Code.business.service.UsuarioService;
 
 import java.util.*;
 
@@ -26,7 +28,7 @@ public class InquilinoController {
     private UsuarioService usuarioService;
     
     @Autowired
-    private ReservaService reservaService;
+    private JndiService reservaService;
 
     private Map<Long, Set<Long>> listaDeseosPorUsuario = new HashMap<>();
 
@@ -109,7 +111,7 @@ public class InquilinoController {
         return "home_inquilino";
     }
 
-    // ⭐ Añadir a deseos
+    /* Añadir a deseos
     @PostMapping("inquilino/deseos/agregar/{id}")
     public String agregarADeseos(@PathVariable Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
@@ -156,7 +158,7 @@ public class InquilinoController {
 
     // 📜 Historial
     @GetMapping("inquilino/historial")
-    public String verHistorialReservas(HttpSession session, Model model) {
+   public String verHistorialReservas(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
 
         if (usuario == null || !usuario.esInquilino()) {
@@ -168,7 +170,7 @@ public class InquilinoController {
             reservasUsuario = new ArrayList<>();
         }
         
-     // Calcular monto de reembolso para cada reserva según política de cancelación
+      Calcular monto de reembolso para cada reserva según política de cancelación
         List<Double> reembolsos = new ArrayList<>(reservasUsuario.size());
         for (Reserva r : reservasUsuario) {
             double monto;
@@ -189,7 +191,7 @@ public class InquilinoController {
         model.addAttribute("usuarioActual", usuario);
 
         return "/historial_reservas";
-    }
+    }*/
 
     // 🚪 Cerrar sesión
     @PostMapping("/cerrar-sesion")
