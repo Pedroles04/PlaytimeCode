@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alquilar - Inquilino</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        /* Estilos existentes */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; }
+        .header { background-color: #d9d9d9; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 28px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .user-icon { width: 45px; height: 45px; background-color: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
+        .user-icon svg { width: 28px; height: 28px; }
+        .icon-button { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+        .menu-icon { background-color: #2196F3; color: white; }
+        .menu-icon svg { width: 24px; height: 24px; }
+        .menu-dropdown { display: none; position: absolute; top: 60px; right: 0; background-color: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); padding: 10px; min-width: 180px; z-index: 100; }
+        .menu-dropdown.active { display: block; }
+        .menu-item { padding: 12px 20px; cursor: pointer; border-radius: 5px; background-color: #e0e0e0; font-weight: 500; color: #333; }
+        .menu-item:hover { background-color: #e91e63; color: white; }
+        .container { padding: 40px; text-align: center; }
+        .section-title { font-size: 32px; font-weight: bold; margin-bottom: 30px; }
+        .inmueble-card, .booking-form { display: inline-block; background-color: white; border: 3px solid #4CAF50; border-radius: 8px; padding: 20px; width: 400px; text-align: left; margin-bottom: 30px; }
+        .inmueble-card h3 { margin-bottom: 10px; }
+        .inmueble-card p { margin-bottom: 8px; }
+        .booking-form label { display: block; font-weight: bold; margin-bottom: 8px; }
+        .booking-form input[type="text"] { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px; }
+        .payment-methods label { font-weight: bold; display: block; margin-bottom: 8px; }
+        .payment-methods div { margin-bottom: 8px; font-size: 14px; }
+        #btnReservar { display: none; margin-top: 15px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #btnReservar:hover { background-color: #45a049; }
+        .mensaje-error { color: red; font-weight: bold; margin-top: 10px; }
+        .mensaje-exito { color: green; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="logo">
+        <div class="user-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+        </div>
+   			 <span th:text="${usuarioActual.nombre}">Nombre Usuario</span>
+    </div>
+    <div class="icon-button menu-icon" onclick="toggleMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <div class="menu-dropdown" id="menuDropdown">
+            <div class="menu-item"><a th:href="@{/usuarios/logout}">Cerrar sesión</a></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="section-title">Alquilar</div>
+
+    <div class="inmueble-card">
+        <h3 th:text="${inmueble.titulo}">Título del inmueble</h3>
+        <p th:text="${inmueble.descripcion}">Descripción</p>
+        <p><strong>Ciudad:</strong> <span th:text="${inmueble.ciudad}"></span></p>
+        <p><strong>Habitaciones:</strong> <span th:text="${inmueble.numHabitaciones}"></span></p>
+        <p><strong>Baños:</strong> <span th:text="${inmueble.numBanos}"></span></p>
+        <p><strong>Precio:</strong> <span th:text="${inmueble.precioPorNoche}"></span> €/noche</p>
+    </div>
+
+    <div class="booking-form">
+        <label for="rangoFechas">Selecciona los días que quieres alquilar:</label>
+        <input type="text" id="rangoFechas" placeholder="Selecciona fechas" required>
+
+        <div class="payment-methods" id="metodosPago">
+            <label>Método de pago:</label>
+            <div>
+                <input type="radio" id="tarjetaCredito" name="metodoPago" value="tarjetaCredito">
+                <label for="tarjetaCredito">Tarjeta de crédito</label>
+            </div>
+            <div>
+                <input type="radio" id="tarjetaDebito" name="metodoPago" value="tarjetaDebito">
+                <label for="tarjetaDebito">Tarjeta de débito</label>
+            </div>
+            <div>
+                <input type="radio" id="paypal" name="metodoPago" value="paypal">
+                <label for="paypal">PayPal</label>
+            </div>
+        </div>
+
+        <button id="btnReservar" onclick="reservar()"></button>
+
+        <div class="mensaje-error" id="mensajeError"></div>
+        <div class="mensaje-exito" th:if="${mensaje}" th:text="${mensaje}"></div>
+        <div class="mensaje-error" th:if="${error}" th:text="${error}"></div>
+    </div>
+</div>
+
+<script>
+function toggleMenu() {
+    const dropdown = document.getElementById('menuDropdown');
+    dropdown.classList.toggle('active');
+}
+document.addEventListener('click', function(event) {
+    const menuIcon = event.target.closest('.menu-icon');
+    if (!menuIcon) document.getElementById('menuDropdown').classList.remove('active');
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+<script th:inline="javascript">
+const fechasOcupadas = /*[[${fechasOcupadas}]]*/ [];
+const btnReservar = document.getElementById('btnReservar');
+const metodoPagoInputs = document.querySelectorAll('input[name="metodoPago"]');
+const mensajeError = document.getElementById('mensajeError');
+const metodosPagoDiv = document.getElementById('metodosPago');
+let fechasSeleccionadas = [];
+
+flatpickr("#rangoFechas", {
+    mode: "range",
+    minDate: "today",
+    dateFormat: "Y-m-d",
+    locale: "es",
+    disable: fechasOcupadas,
+    onChange: function(selectedDates) {
+        fechasSeleccionadas = selectedDates;
+        mensajeError.textContent = '';
+        checkReservar();
+    },
+    onDayCreate: function(dObj, dStr, fp, dayElem) {
+        const dateStr = dayElem.dateObj.toISOString().split("T")[0];
+        if (fechasOcupadas.includes(dateStr)) {
+            dayElem.style.backgroundColor = "#f44336"; // rojo
+            dayElem.style.color = "white";
+        } else {
+            dayElem.style.backgroundColor = "#4CAF50"; // verde
+            dayElem.style.color = "white";
+        }
+    }
+});
+
+metodoPagoInputs.forEach(input => input.addEventListener('change', checkReservar));
+
+function checkReservar() {
+    const reservaInmediata = /*[[${inmueble.reservaInmediata}]]*/ true;
+    const existePendiente = /*[[${reserva != null && reserva.estado.name() == 'PENDIENTE'}]]*/ false;
+    const metodoPagoSeleccionado = Array.from(metodoPagoInputs).some(i => i.checked);
+
+    if (existePendiente) {
+        btnReservar.style.display = 'none';
+        metodosPagoDiv.style.display = 'none';
+        mensajeError.textContent = '⏳ Pendiente de confirmación del propietario.';
+        return;
+    }
+
+    // ✅ Mostrar siempre los métodos de pago
+    metodosPagoDiv.style.display = 'block';
+
+    // ✅ El botón aparece solo si hay fechas y método de pago
+    if (fechasSeleccionadas.length === 2 && metodoPagoSeleccionado) {
+        btnReservar.style.display = 'inline-block';
+        btnReservar.textContent = reservaInmediata ? 'Reservar' : 'Solicitar reserva';
+        mensajeError.textContent = '';
+    } else {
+        btnReservar.style.display = 'none';
+        if (fechasSeleccionadas.length !== 2) {
+            mensajeError.textContent = 'Selecciona un rango de fechas válido.';
+        } else if (!metodoPagoSeleccionado) {
+            mensajeError.textContent = 'Selecciona un método de pago.';
+        }
+    }
+}
+
+
+function reservar() {
+    if (fechasSeleccionadas.length !== 2) {
+        mensajeError.textContent = 'Selecciona un rango de fechas válido.';
+        return;
+    }
+    const metodo = document.querySelector('input[name="metodoPago"]:checked');
+    const reservaInmediata = /*[[${inmueble.reservaInmediata}]]*/ true;
+
+    if (reservaInmediata && !metodo) {
+        mensajeError.textContent = 'Selecciona un método de pago.';
+        return;
+    }
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '';
+
+    const inputFechas = document.createElement('input');
+    inputFechas.type = 'hidden';
+    inputFechas.name = 'rangoFechas';
+    inputFechas.value = fechasSeleccionadas[0].toISOString().split("T")[0] + " to " + fechasSeleccionadas[1].toISOString().split("T")[0];
+
+    if (reservaInmediata) {
+        const inputPago = document.createElement('input');
+        inputPago.type = 'hidden';
+        inputPago.name = 'metodoPago';
+        inputPago.value = metodo.value;
+        form.appendChild(inputPago);
+    }
+
+    form.appendChild(inputFechas);
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+</body>
+</html>
