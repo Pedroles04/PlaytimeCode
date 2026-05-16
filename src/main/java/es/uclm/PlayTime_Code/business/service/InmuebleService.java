@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
+import es.uclm.PlayTime_Code.business.entity.PoliticaCancelacion;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.persistence.InmuebleDAO;
 
