@@ -111,7 +111,7 @@ public class InquilinoController {
         return "home_inquilino";
     }
 
-    /* Añadir a deseos
+    // Añadir a deseos
     @PostMapping("inquilino/deseos/agregar/{id}")
     public String agregarADeseos(@PathVariable Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
@@ -170,7 +170,7 @@ public class InquilinoController {
             reservasUsuario = new ArrayList<>();
         }
         
-      Calcular monto de reembolso para cada reserva según política de cancelación
+     // Calcular monto de reembolso para cada reserva según política de cancelación
         List<Double> reembolsos = new ArrayList<>(reservasUsuario.size());
         for (Reserva r : reservasUsuario) {
             double monto;
@@ -191,7 +191,7 @@ public class InquilinoController {
         model.addAttribute("usuarioActual", usuario);
 
         return "/historial_reservas";
-    }*/
+    }
 
     // 🚪 Cerrar sesión
     @PostMapping("/cerrar-sesion")

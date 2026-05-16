@@ -1,5 +1,8 @@
 package es.uclm.PlayTime_Code.business.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 
@@ -22,6 +25,7 @@ public class Inmueble {
     private int numHabitaciones;
     private int numBanos;
     private boolean reservaInmediata;
+   
 
     @Enumerated(EnumType.STRING)
     @Column(name = "politica_cancelacion", nullable = false)
@@ -30,6 +34,11 @@ public class Inmueble {
     @ManyToOne
     @JoinColumn(name = "propietario_id", nullable = false)
     private Usuario propietario;
+    @OneToMany(mappedBy = "inmueble", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Reserva> reservas= new ArrayList<>();
+
+    @OneToMany(mappedBy = "inmueble", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Deseo> deseos= new ArrayList<>();
 
     // Constructor vacío
     public Inmueble() {}

@@ -63,4 +63,22 @@ public class Usuario {
     public boolean esPropietario() { return rol == Rol.PROPIETARIO; }
     public boolean esInquilino() { return rol == Rol.INQUILINO; }
     public boolean esUsuarioNormal() { return rol == Rol.USUARIO_NORMAL; }
+    
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "inquilino_deseos",
+        joinColumns = @JoinColumn(name = "inquilino_id"),
+        inverseJoinColumns = @JoinColumn(name = "inmueble_id")
+    )
+
+    private List<Inmueble> listaDeseos = new ArrayList<>();
+
+    
+    public List<Inmueble> getDeseosList() {
+        return listaDeseos;
+    }
+
+    public void setDeseosList(List<Inmueble> listaDeseos) {
+        this.listaDeseos = listaDeseos;
+    }
 }

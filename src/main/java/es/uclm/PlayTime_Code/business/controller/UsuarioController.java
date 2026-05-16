@@ -85,7 +85,12 @@ public class UsuarioController {
             return "redirect:/home";
         }
     }
-
+    @GetMapping("/logout")
+    public String cerrarSesion(SessionStatus status, HttpSession session) {
+        status.setComplete();
+        session.invalidate(); // ✅ limpiar la sesión real
+        return "redirect:/home";
+    }
 
 }
 
