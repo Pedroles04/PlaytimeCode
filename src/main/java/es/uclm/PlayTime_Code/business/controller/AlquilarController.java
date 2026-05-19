@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ch.qos.logback.core.model.Model;
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
+import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.business.service.InmuebleService;
+import es.uclm.PlayTime_Code.business.service.ReservaService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
