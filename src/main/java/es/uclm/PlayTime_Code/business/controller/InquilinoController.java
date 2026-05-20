@@ -14,6 +14,8 @@ import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.business.service.InmuebleService;
 import es.uclm.PlayTime_Code.business.service.UsuarioService;
+import es.uclm.PlayTime_Code.business.entity.Reserva;
+import es.uclm.PlayTime_Code.business.service.ReservaService;
 
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class InquilinoController {
     private UsuarioService usuarioService;
     
     @Autowired
-    private JndiService reservaService;
+    private ReservaService reservaService;
 
     private Map<Long, Set<Long>> listaDeseosPorUsuario = new HashMap<>();
 
@@ -118,8 +120,8 @@ public class InquilinoController {
         Inmueble inmueble = inmuebleService.buscarPorId(id);
 
         if (usuario != null && inmueble != null) {
-            if (!usuario.getListaDeseos().contains(inmueble)) {
-                usuario.getListaDeseos().add(inmueble);
+            if (!usuario.getDeseosList().contains(inmueble)) {
+                usuario.getDeseosList().add(inmueble);
                 usuarioService.guardar(usuario);
             }
         }
@@ -133,7 +135,7 @@ public class InquilinoController {
 
         if (usuario != null) {
             // Buscar el inmueble en la lista de deseos por ID
-            usuario.getListaDeseos().removeIf(i -> i.getId().equals(id));
+            usuario.getDeseosList().removeIf(i -> i.getId().equals(id));
             usuarioService.guardar(usuario);
         }
 
@@ -150,7 +152,7 @@ public class InquilinoController {
             return "redirect:/home";
         }
 
-        model.addAttribute("inmuebles", usuario.getListaDeseos());
+        model.addAttribute("inmuebles", usuario.getDeseosList());
         model.addAttribute("usuarioActual", usuario);
 
         return "/deseos_inquilino";

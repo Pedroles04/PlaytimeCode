@@ -34,6 +34,8 @@ public class HomeController {
 
         // Obtenemos usuario actual de la sesión (puede ser null si no está logueado)
         Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        //Añadido
+        List<Inmueble> inmuebles = inmuebleService.listarTodos();
 
 
         // 🔎 Filtros dinámicos

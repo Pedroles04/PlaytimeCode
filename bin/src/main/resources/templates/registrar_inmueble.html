@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Inmueble</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      width: 420px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    input, textarea {
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    button {
+      margin-top: 18px;
+      padding: 10px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    .checkbox {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .checkbox input {
+      width: auto;
+      margin-right: 8px;
+    }
+    .message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .error {
+      text-align: center;
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      color: #2563eb;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Registrar nuevo inmueble</h2>
+
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+    <p th:if="${mensaje}" th:text="${mensaje}" class="message"></p>
+
+    <form action="/inmuebles/registrar" method="post">
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" name="titulo" placeholder="Ej: Piso en el centro" required>
+
+      <label for="direccion">Dirección</label>
+      <input type="text" id="direccion" name="direccion" placeholder="Calle, número, piso..." required>
+
+      <label for="ciudad">Ciudad</label>
+      <input type="text" id="ciudad" name="ciudad" placeholder="Ej: Talavera de la Reina" required>
+
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" placeholder="Escribe una breve descripción del inmueble..."></textarea>
+
+      <label for="precio">Precio por noche (€)</label>
+      <input type="number" id="precio" name="precio" step="0.01" min="0" placeholder="Ej: 45.50" required>
+
+      <label for="numHabitaciones">Número de habitaciones</label>
+      <input type="number" id="numHabitaciones" name="numHabitaciones" min="0" required>
+
+      <label for="numBanos">Número de baños</label>
+      <input type="number" id="numBanos" name="numBanos" min="0" required>
+      
+      <label for="politicaCancelacion">Política de cancelación:</label>
+	    <select id="politicaCancelacion" name="politicaCancelacion" class="form-control" required>
+	        <option value="REEMBOLSABLE">Reembolsable</option>
+	        <option value="NO_REEMBOLSABLE">No reembolsable</option>
+	        <option value="REEMBOLSABLE_50">Reembolsable al 50%</option>
+	    </select>
+
+      <div class="checkbox">
+        <input type="checkbox" id="reservaDirecta" name="reservaDirecta">
+        <label for="reservaDirecta">Permitir reserva directa</label>
+      </div>
+
+      <button type="submit">Registrar inmueble</button>
+    </form>
+
+    <a href="/home">⬅️ Volver al inicio</a>
+  </div>
+</body>
+</html>
