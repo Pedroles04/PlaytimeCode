@@ -21,7 +21,6 @@ public class HomeController {
         return "redirect:/home";
     }
 
-    // HOME GENERAL
     @GetMapping("/home")
     public String mostrarHome(@RequestParam(required = false) String search,
                               @RequestParam(required = false) String ciudad,
@@ -32,13 +31,13 @@ public class HomeController {
                               HttpSession session,
                               Model model) {
 
-        // Obtenemos usuario actual de la sesión (puede ser null si no está logueado)
+        //Obtenemos usuario actual de la sesión
         Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
-        //Añadido
+  
         List<Inmueble> inmuebles = inmuebleService.listarTodos();
 
 
-        // 🔎 Filtros dinámicos
+        // Filtros dinámicos
         if (search != null && !search.isBlank()) {
             String searchLower = search.toLowerCase();
             inmuebles = inmuebles.stream()
@@ -79,7 +78,7 @@ public class HomeController {
         }
 
 
-        // Atributos para la vista
+        //Atributos para la vista
         model.addAttribute("usuarioActual", usuarioActual);
         model.addAttribute("inmuebles", inmuebles);
         model.addAttribute("busqueda", search);
@@ -87,7 +86,7 @@ public class HomeController {
         model.addAttribute("habitaciones", habitaciones);
         model.addAttribute("banos", banos);
 
-        // Lista de ciudades disponibles (para combo o filtro)
+        //Lista de ciudades disponibles
         List<String> ciudades = inmuebles.stream()
                 .map(Inmueble::getCiudad)
                 .filter(c -> c != null && !c.isBlank())

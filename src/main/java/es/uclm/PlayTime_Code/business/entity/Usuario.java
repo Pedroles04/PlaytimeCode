@@ -34,7 +34,7 @@ public class Usuario {
     @Column(nullable = false)
     private Rol rol;
 
-    // Constructor vacío
+    // Constructor 
     public Usuario() {}
 
     // Getters y Setters
@@ -59,7 +59,6 @@ public class Usuario {
     public Rol getRol() { return rol; }
     public void setRol(Rol rol) { this.rol = rol; }
 
-    // Métodos de ayuda
     public boolean esPropietario() { return rol == Rol.PROPIETARIO; }
     public boolean esInquilino() { return rol == Rol.INQUILINO; }
     public boolean esUsuarioNormal() { return rol == Rol.USUARIO_NORMAL; }

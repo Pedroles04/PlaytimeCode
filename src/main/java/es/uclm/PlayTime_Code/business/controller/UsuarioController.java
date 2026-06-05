@@ -35,11 +35,11 @@ public class UsuarioController {
         Usuario usuario = usuarioService.iniciarSesion(login, pass);
 
         if (usuario == null) {
-            model.addAttribute("error", "❌ Credenciales incorrectas");
+            model.addAttribute("error", "Credenciales incorrectas");
             return "login";
         }
 
-        session.setAttribute("usuarioActual", usuario); // ✅ guardar sesión activa
+        session.setAttribute("usuarioActual", usuario); 
         model.addAttribute("usuarioActual", usuario);
 
         if (usuario.getRol() == Rol.PROPIETARIO) {
@@ -69,12 +69,12 @@ public class UsuarioController {
         boolean ok = usuarioService.registrarUsuario(login, pass, nombre, apellidos, direccion, rol);
 
         if (!ok) {
-            model.addAttribute("error", "❌ Error al registrar usuario (login existente o rol inválido)");
+            model.addAttribute("error", "Error al registrar usuario (login existente o rol inválido)");
             return "registro";
         }
 
         Usuario usuario = usuarioService.iniciarSesion(login, pass);
-        session.setAttribute("usuarioActual", usuario); // ✅ guardar en sesión real
+        session.setAttribute("usuarioActual", usuario);
         model.addAttribute("usuarioActual", usuario);
 
         if (usuario.getRol() == Rol.PROPIETARIO) {
@@ -88,7 +88,7 @@ public class UsuarioController {
     @GetMapping("/logout")
     public String cerrarSesion(SessionStatus status, HttpSession session) {
         status.setComplete();
-        session.invalidate(); // ✅ limpiar la sesión real
+        session.invalidate(); 
         return "redirect:/home";
     }
 
