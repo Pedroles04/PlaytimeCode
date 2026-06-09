@@ -23,18 +23,18 @@ public class PropietarioController {
 
 
     /**
-     * 🏠 Página principal del propietario (home_propietario.html)
+     * Página principal del propietario (home_propietario.html)
      */
     @GetMapping("/inicio")
     public String mostrarHomePropietario(@ModelAttribute("usuarioActual") Usuario usuarioActual,
                                          Model model) {
 
-        // Si no hay sesión o no es propietario → redirige al home general
+        //Si no hay sesión o no es propietario: redirige al home general
         if (usuarioActual == null || !usuarioActual.esPropietario()) {
             return "redirect:/home";
         }
 
-        // Filtramos inmuebles del propietario actual
+        //Filtramos inmuebles del propietario actual
         List<Inmueble> inmuebles = inmuebleService.listarTodos().stream()
                 .filter(i -> i.getPropietario() != null &&
                              i.getPropietario().getId().equals(usuarioActual.getId()))

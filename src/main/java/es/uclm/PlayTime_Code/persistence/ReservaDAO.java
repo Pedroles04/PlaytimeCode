@@ -12,6 +12,8 @@ import es.uclm.PlayTime_Code.business.entity.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import es.uclm.PlayTime_Code.business.entity.Inmueble;
+import es.uclm.PlayTime_Code.business.entity.Usuario;
 
 @Repository
 @Transactional

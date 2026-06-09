@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mis deseos</title>
+</head>
+<body>
+    <h1>💖 Mis inmuebles deseados</h1>
+
+    <div th:if="${inmuebles.isEmpty()}">
+        <p>No tienes inmuebles en tu lista de deseos.</p>
+    </div>
+
+    <div th:each="inmueble : ${inmuebles}">
+        <h3 th:text="${inmueble.titulo}"></h3>
+        <p th:text="${inmueble.descripcion}"></p>
+        <form th:action="@{/inquilino/deseos/eliminar/{id}(id=${inmueble.id})}" method="post">
+            <button type="submit">❌ Quitar de deseos</button>
+        </form>
+    </div>
+
+    <a href="/inquilino/inicio">⬅️ Volver al inicio</a>
+</body>
+</html>
+
+

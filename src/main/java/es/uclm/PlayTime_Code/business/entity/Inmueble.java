@@ -40,7 +40,7 @@ public class Inmueble {
     @OneToMany(mappedBy = "inmueble", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Deseo> deseos= new ArrayList<>();
 
-    // Constructor vacío
+    // Constructor
     public Inmueble() {}
 
     // Getters y Setters

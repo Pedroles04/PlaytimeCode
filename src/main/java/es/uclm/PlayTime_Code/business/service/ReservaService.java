@@ -79,15 +79,15 @@ public class ReservaService {
                 String destinatario = inquilino.getLogin() != null ? inquilino.getLogin() : ("user#" + inquilino.getId());
                 String mensaje;
                 if (montoReembolso == 0.0) {
-                    mensaje = "❌ Tu reserva ha sido rechazada. Política: no reembolsable. No hay devolución.";
+                    mensaje = "Tu reserva ha sido rechazada. Política: no reembolsable. No hay devolución.";
                 } else if (Double.compare(montoReembolso, r.getPrecioTotal()) == 0) {
-                    mensaje = String.format("ℹ️ Tu reserva ha sido rechazada. Se te reembolsa el total: %.2f €.", montoReembolso);
+                    mensaje = String.format("Tu reserva ha sido rechazada. Se te reembolsa el total: %.2f €.", montoReembolso);
                 } else {
-                    mensaje = String.format("ℹ️ Tu reserva ha sido rechazada. Se te reembolsa el 50%%: %.2f €.", montoReembolso);
+                    mensaje = String.format("Tu reserva ha sido rechazada. Se te reembolsa el 50%%: %.2f €.", montoReembolso);
                 }
 
-                // Por ahora notificación por consola (sustituir por servicio real si existe)
-                System.out.println("📩 Notificación a " + destinatario + ": " + mensaje);
+                
+                System.out.println("Notificación a " + destinatario + ": " + mensaje);
             }
         }
         return r;
@@ -114,14 +114,14 @@ public class ReservaService {
                 String destinatario = inquilino.getLogin() != null ? inquilino.getLogin() : ("user#" + inquilino.getId());
                 String mensaje;
                 if (montoReembolso == 0.0) {
-                    mensaje = "❌ Has cancelado la reserva. Política: no reembolsable. No hay devolución.";
+                    mensaje = "Has cancelado la reserva. Política: no reembolsable. No hay devolución.";
                 } else if (Double.compare(montoReembolso, r.getPrecioTotal()) == 0) {
-                    mensaje = String.format("ℹ️ Has cancelado la reserva. Se te reembolsa el total: %.2f €.", montoReembolso);
+                    mensaje = String.format("Has cancelado la reserva. Se te reembolsa el total: %.2f €.", montoReembolso);
                 } else {
-                    mensaje = String.format("ℹ️ Has cancelado la reserva. Se te reembolsa el 50%%: %.2f €.", montoReembolso);
+                    mensaje = String.format("Has cancelado la reserva. Se te reembolsa el 50%%: %.2f €.", montoReembolso);
                 }
 
-                System.out.println("📩 Notificación a " + destinatario + ": " + mensaje);
+                System.out.println("Notificación a " + destinatario + ": " + mensaje);
             }
         }
         return r;

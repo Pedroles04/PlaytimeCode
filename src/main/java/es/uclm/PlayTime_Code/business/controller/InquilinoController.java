@@ -3,7 +3,6 @@ package es.uclm.PlayTime_Code.business.controller;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.hibernate.engine.jndi.spi.JndiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +14,8 @@ import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.business.service.InmuebleService;
 import es.uclm.PlayTime_Code.business.service.UsuarioService;
+import es.uclm.PlayTime_Code.business.entity.Reserva;
+import es.uclm.PlayTime_Code.business.service.ReservaService;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class InquilinoController {
     private UsuarioService usuarioService;
     
     @Autowired
-    private JndiService reservaService;
+    private ReservaService reservaService;
 
     private Map<Long, Set<Long>> listaDeseosPorUsuario = new HashMap<>();
 
@@ -55,7 +56,7 @@ public class InquilinoController {
 
         List<Inmueble> inmuebles = inmuebleService.listarTodos();
 
-        // Filtros dinámicos
+        //Filtros dinámicos
         if (search != null && !search.isBlank()) {
             String searchLower = search.toLowerCase();
             inmuebles = inmuebles.stream()
@@ -112,29 +113,29 @@ public class InquilinoController {
         return "home_inquilino";
     }
 
-    // Añadir a deseos
+    //Añadir a deseos
     @PostMapping("inquilino/deseos/agregar/{id}")
     public String agregarADeseos(@PathVariable Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
         Inmueble inmueble = inmuebleService.buscarPorId(id);
 
         if (usuario != null && inmueble != null) {
-            if (!usuario.getListaDeseos().contains(inmueble)) {
-                usuario.getListaDeseos().add(inmueble);
+            if (!usuario.getDeseosList().contains(inmueble)) {
+                usuario.getDeseosList().add(inmueble);
                 usuarioService.guardar(usuario);
             }
         }
         return "redirect:/inquilino/inicio";
     }
 
-    // 🗑️ Eliminar de deseos
+    //Eliminar de deseos
     @PostMapping("inquilino/deseos/eliminar/{id}")
     public String eliminarDeDeseos(@PathVariable Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
 
         if (usuario != null) {
-            // Buscar el inmueble en la lista de deseos por ID
-            usuario.getListaDeseos().removeIf(i -> i.getId().equals(id));
+            //Buscar el inmueble en la lista de deseos por ID
+            usuario.getDeseosList().removeIf(i -> i.getId().equals(id));
             usuarioService.guardar(usuario);
         }
 
@@ -142,7 +143,7 @@ public class InquilinoController {
     }
 
 
-    // 💖 Ver deseos
+    //Ver deseos
     @GetMapping("inquilino/deseos")
     public String verDeseos(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
@@ -151,13 +152,13 @@ public class InquilinoController {
             return "redirect:/home";
         }
 
-        model.addAttribute("inmuebles", usuario.getListaDeseos());
+        model.addAttribute("inmuebles", usuario.getDeseosList());
         model.addAttribute("usuarioActual", usuario);
 
         return "/deseos_inquilino";
     }
 
-    // 📜 Historial
+    //Historial
     @GetMapping("inquilino/historial")
    public String verHistorialReservas(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
@@ -171,7 +172,7 @@ public class InquilinoController {
             reservasUsuario = new ArrayList<>();
         }
         
-     // Calcular monto de reembolso para cada reserva según política de cancelación
+     //Calcular monto de reembolso para cada reserva según política de cancelación
         List<Double> reembolsos = new ArrayList<>(reservasUsuario.size());
         for (Reserva r : reservasUsuario) {
             double monto;
@@ -179,10 +180,10 @@ public class InquilinoController {
                 switch (r.getInmueble().getPoliticaCancelacion()) {
                     case REEMBOLSABLE -> monto = r.getPrecioTotal();
                     case REEMBOLSABLE_50 -> monto = r.getPrecioTotal() / 2.0;
-                    default -> monto = 0.0; // NO_REEMBOLSABLE
+                    default -> monto = 0.0; 
                 }
             } else {
-                monto = 0.0; // Si no está rechazada o cancelada no hay reembolso
+                monto = 0.0; //Si no está rechazada o cancelada no hay reembolso
             }
             reembolsos.add(monto);
         }
@@ -194,7 +195,6 @@ public class InquilinoController {
         return "/historial_reservas";
     }
 
-    // 🚪 Cerrar sesión
     @PostMapping("/cerrar-sesion")
     public String cerrarSesion(SessionStatus status, HttpSession session) {
         status.setComplete();

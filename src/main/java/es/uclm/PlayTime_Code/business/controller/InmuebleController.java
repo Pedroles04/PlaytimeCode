@@ -47,7 +47,7 @@ public class InmuebleController {
             @RequestParam int numHabitaciones,
             @RequestParam int numBanos,
             @RequestParam(defaultValue = "false") boolean reservaDirecta,
-            @RequestParam PoliticaCancelacion politicaCancelacion, // 🔹 Nuevo campo
+            @RequestParam PoliticaCancelacion politicaCancelacion,
             Model model) {
 
         if (usuario == null) {
@@ -65,14 +65,14 @@ public class InmuebleController {
                 ciudad,
                 numHabitaciones,
                 numBanos,
-                politicaCancelacion // 🔹 Nuevo parámetro
+                politicaCancelacion 
         );
 
         if (ok) {
-            model.addAttribute("mensaje", "✅ Inmueble registrado correctamente");
+            model.addAttribute("mensaje", "Inmueble registrado correctamente");
             return "redirect:/propietario/inicio";
         } else {
-            model.addAttribute("error", "❌ Error al registrar inmueble (verifica tu rol o datos)");
+            model.addAttribute("error", "Error al registrar inmueble (verifica tu rol o datos)");
             return "registrar_inmueble";
         }
     }
