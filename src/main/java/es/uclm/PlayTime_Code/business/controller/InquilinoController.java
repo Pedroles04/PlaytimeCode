@@ -21,8 +21,9 @@ import java.util.*;
 @SessionAttributes(InquilinoController.USUARIO_ACTUAL)
 public class InquilinoController {
 
-	static final String USUARIO_ACTUAL = "usuarioActual";
-	
+    static final String USUARIO_ACTUAL = "usuarioActual";
+    static final String REDIRECT_HOME  = "redirect:/home";
+
     @Autowired
     private InmuebleService inmuebleService;
 
@@ -51,7 +52,7 @@ public class InquilinoController {
 
         Usuario usuarioActual = (Usuario) session.getAttribute(USUARIO_ACTUAL);
         if (usuarioActual == null || !usuarioActual.esInquilino()) {
-            return "redirect:/home";
+            return REDIRECT_HOME;
         }
 
         List<Inmueble> inmuebles = inmuebleService.listarTodos();
@@ -106,7 +107,7 @@ public class InquilinoController {
         Usuario usuario = (Usuario) session.getAttribute(USUARIO_ACTUAL);
 
         if (usuario == null || !usuario.esInquilino()) {
-            return "redirect:/home";
+            return REDIRECT_HOME;
         }
 
         model.addAttribute("inmuebles", usuario.getListaDeseos());
@@ -120,7 +121,7 @@ public class InquilinoController {
         Usuario usuario = (Usuario) session.getAttribute(USUARIO_ACTUAL);
 
         if (usuario == null || !usuario.esInquilino()) {
-            return "redirect:/home";
+            return REDIRECT_HOME;
         }
 
         List<Reserva> reservasUsuario = reservaService.listarPorInquilino(usuario.getId());
@@ -154,7 +155,7 @@ public class InquilinoController {
     public String cerrarSesion(SessionStatus status, HttpSession session) {
         status.setComplete();
         session.invalidate();
-        return "redirect:/home";
+        return REDIRECT_HOME;
     }
 
     private List<Inmueble> aplicarFiltros(List<Inmueble> inmuebles,
