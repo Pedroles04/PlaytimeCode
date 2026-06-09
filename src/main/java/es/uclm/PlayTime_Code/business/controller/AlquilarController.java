@@ -27,6 +27,7 @@ import jakarta.servlet.http.HttpSession;
 public class AlquilarController {
 
     static final String USUARIO_ACTUAL = "usuarioActual";
+    static final String FECHAS_OCUPADAS = "fechasOcupadas";
 
     private final InmuebleService inmuebleService;
     private final ReservaService reservaService;
@@ -50,7 +51,7 @@ public class AlquilarController {
         List<String> fechasOcupadas = reservaService.obtenerFechasOcupadas(id);
 
         model.addAttribute("inmueble", inmueble);
-        model.addAttribute("fechasOcupadas", fechasOcupadas);
+        model.addAttribute(FECHAS_OCUPADAS, fechasOcupadas);
         model.addAttribute(USUARIO_ACTUAL, usuarioActual);
 
         return "menu_alquilar";
@@ -74,7 +75,7 @@ public class AlquilarController {
         List<String> fechasOcupadas = reservaService.obtenerFechasOcupadas(id);
 
         model.addAttribute("inmueble", inmueble);
-        model.addAttribute("fechasOcupadas", fechasOcupadas);
+        model.addAttribute(FECHAS_OCUPADAS, fechasOcupadas);
         model.addAttribute(USUARIO_ACTUAL, usuarioActual);
 
         try {
@@ -101,7 +102,7 @@ public class AlquilarController {
             }
 
             fechasOcupadas = reservaService.obtenerFechasOcupadas(id);
-            model.addAttribute("fechasOcupadas", fechasOcupadas);
+            model.addAttribute(FECHAS_OCUPADAS, fechasOcupadas);
             model.addAttribute("reserva", reserva);
 
         } catch (Exception e) {
