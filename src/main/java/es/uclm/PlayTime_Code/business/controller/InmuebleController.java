@@ -1,11 +1,10 @@
 package es.uclm.PlayTime_Code.business.controller;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import es.uclm.PlayTime_Code.business.entity.PoliticaCancelacion;
 import es.uclm.PlayTime_Code.business.entity.Rol;
@@ -22,17 +21,19 @@ public class InmuebleController {
 
     @GetMapping("/registrar")
     public String mostrarFormulario(@SessionAttribute(value = "usuarioActual", required = false) Usuario usuario,
-                                    Model model) {
+                                    Model model,
+                                    SessionStatus sessionStatus) {
         if (usuario == null) {
             model.addAttribute("error", "Debes iniciar sesión primero");
+            sessionStatus.setComplete();
             return "login";
         }
-
         if (usuario.getRol() != Rol.PROPIETARIO) {
             model.addAttribute("error", "Solo los propietarios pueden registrar inmuebles");
+            sessionStatus.setComplete();
             return "home";
         }
-
+        sessionStatus.setComplete();
         return "registrar_inmueble";
     }
 
@@ -47,11 +48,13 @@ public class InmuebleController {
             @RequestParam int numHabitaciones,
             @RequestParam int numBanos,
             @RequestParam(defaultValue = "false") boolean reservaDirecta,
-            @RequestParam PoliticaCancelacion politicaCancelacion, // 🔹 Nuevo campo
-            Model model) {
+            @RequestParam PoliticaCancelacion politicaCancelacion,
+            Model model,
+            SessionStatus sessionStatus) {
 
         if (usuario == null) {
             model.addAttribute("error", "Debes iniciar sesión.");
+            sessionStatus.setComplete();
             return "login";
         }
 
@@ -65,18 +68,17 @@ public class InmuebleController {
                 ciudad,
                 numHabitaciones,
                 numBanos,
-                politicaCancelacion // 🔹 Nuevo parámetro
+                politicaCancelacion
         );
 
         if (ok) {
             model.addAttribute("mensaje", "✅ Inmueble registrado correctamente");
+            sessionStatus.setComplete();
             return "redirect:/propietario/inicio";
         } else {
             model.addAttribute("error", "❌ Error al registrar inmueble (verifica tu rol o datos)");
+            sessionStatus.setComplete();
             return "registrar_inmueble";
         }
     }
-
-    
 }
-
