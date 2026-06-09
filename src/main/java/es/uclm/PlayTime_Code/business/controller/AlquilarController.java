@@ -29,6 +29,7 @@ public class AlquilarController {
     static final String USUARIO_ACTUAL = "usuarioActual";
     static final String FECHAS_OCUPADAS = "fechasOcupadas";
     static final String MENU_ALQUILAR = "menu_alquilar";
+    static final String ERROR = "error";
 
     private final InmuebleService inmuebleService;
     private final ReservaService reservaService;
@@ -68,7 +69,7 @@ public class AlquilarController {
 
         Usuario usuarioActual = (Usuario) session.getAttribute(USUARIO_ACTUAL);
         if (usuarioActual == null) {
-            model.addAttribute("error", "❌ Debes iniciar sesión para reservar.");
+            model.addAttribute(ERROR, "❌ Debes iniciar sesión para reservar.");
             return "redirect:/usuarios/login";
         }
 
@@ -82,7 +83,7 @@ public class AlquilarController {
         try {
             String[] fechas = rangoFechas.split(" to ");
             if (fechas.length != 2) {
-                model.addAttribute("error", "❌ Rango de fechas inválido.");
+                model.addAttribute(ERROR, "❌ Rango de fechas inválido.");
                 return MENU_ALQUILAR;
             }
 
@@ -92,7 +93,7 @@ public class AlquilarController {
             Reserva reserva;
             if (inmueble.isReservaInmediata()) {
                 if (metodoPago == null || metodoPago.isBlank()) {
-                    model.addAttribute("error", "❌ Debes seleccionar un método de pago.");
+                    model.addAttribute(ERROR, "❌ Debes seleccionar un método de pago.");
                     return MENU_ALQUILAR;
                 }
                 reserva = reservaService.crearReserva(usuarioActual.getId(), id, inicio, fin);
@@ -107,7 +108,7 @@ public class AlquilarController {
             model.addAttribute("reserva", reserva);
 
         } catch (Exception e) {
-            model.addAttribute("error", "❌ Error al crear la reserva: " + e.getMessage());
+            model.addAttribute(ERROR, "❌ Error al crear la reserva: " + e.getMessage());
         }
 
         sessionStatus.setComplete();
