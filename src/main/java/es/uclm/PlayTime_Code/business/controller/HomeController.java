@@ -60,7 +60,6 @@ public class HomeController {
                 .toList();
         model.addAttribute("ciudades", ciudades);
 
-        sessionStatus.setComplete(); // ✅ limpia la sesión al finalizar
         return "home";
     }
     private List<Inmueble> aplicarFiltros(List<Inmueble> inmuebles,

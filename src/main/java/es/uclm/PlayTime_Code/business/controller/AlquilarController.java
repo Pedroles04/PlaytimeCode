@@ -111,7 +111,6 @@ public class AlquilarController {
             model.addAttribute(ERROR, "❌ Error al crear la reserva: " + e.getMessage());
         }
 
-        sessionStatus.setComplete();
         return "redirect:/inquilino/inicio";
     }
 }

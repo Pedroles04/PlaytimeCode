@@ -27,7 +27,6 @@ public class PropietarioController {
                                          Model model,
                                          SessionStatus sessionStatus) {
         if (usuarioActual == null || !usuarioActual.esPropietario()) {
-            sessionStatus.setComplete();
             return "redirect:/home";
         }
 
@@ -39,7 +38,6 @@ public class PropietarioController {
         model.addAttribute("inmuebles", inmuebles);
         model.addAttribute("usuarioActual", usuarioActual);
 
-        sessionStatus.setComplete();
         return "home_propietario";
     }
 

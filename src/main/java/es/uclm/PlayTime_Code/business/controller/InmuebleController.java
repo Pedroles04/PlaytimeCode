@@ -27,15 +27,12 @@ public class InmuebleController {
                                     SessionStatus sessionStatus) {
         if (usuario == null) {
             model.addAttribute(ERROR, "Debes iniciar sesión primero");
-            sessionStatus.setComplete();
             return "login";
         }
         if (usuario.getRol() != Rol.PROPIETARIO) {
             model.addAttribute(ERROR, "Solo los propietarios pueden registrar inmuebles");
-            sessionStatus.setComplete();
             return "home";
         }
-        sessionStatus.setComplete();
         return "registrar_inmueble";
     }
 
@@ -56,7 +53,6 @@ public class InmuebleController {
 
         if (usuario == null) {
             model.addAttribute(ERROR, "Debes iniciar sesión.");
-            sessionStatus.setComplete();
             return "login";
         }
 
@@ -75,11 +71,9 @@ public class InmuebleController {
 
         if (ok) {
             model.addAttribute("mensaje", "✅ Inmueble registrado correctamente");
-            sessionStatus.setComplete();
             return "redirect:/propietario/inicio";
         } else {
             model.addAttribute(ERROR, "❌ Error al registrar inmueble (verifica tu rol o datos)");
-            sessionStatus.setComplete();
             return "registrar_inmueble";
         }
     }

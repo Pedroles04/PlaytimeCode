@@ -32,7 +32,6 @@ public class MenuSolicitudesController {
                                   Model model,
                                   SessionStatus sessionStatus) {
         if (usuarioActual == null) {
-            sessionStatus.setComplete();
             return "redirect:/usuarios/login";
         }
 
@@ -54,7 +53,6 @@ public class MenuSolicitudesController {
         }
 
         model.addAttribute("solicitudes", reservasSolicitadas);
-        sessionStatus.setComplete();
         return "menu_solicitudes_reserva";
     }
 
