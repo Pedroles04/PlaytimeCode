@@ -4,16 +4,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
-import ch.qos.logback.core.model.Model;
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
@@ -26,11 +26,14 @@ import jakarta.servlet.http.HttpSession;
 @SessionAttributes("usuarioActual")
 public class AlquilarController {
 
-    @Autowired
-    private InmuebleService inmuebleService;
+    private final InmuebleService inmuebleService;
+    private final ReservaService reservaService;
 
-    @Autowired
-    private ReservaService reservaService;
+    // ✅ Constructor injection (corrige los 2 @Autowired field injection)
+    public AlquilarController(InmuebleService inmuebleService, ReservaService reservaService) {
+        this.inmuebleService = inmuebleService;
+        this.reservaService = reservaService;
+    }
 
     @GetMapping("/alquilar/{id}")
     public String mostrarMenuAlquilar(@PathVariable Long id,
@@ -57,7 +60,8 @@ public class AlquilarController {
                                @RequestParam String rangoFechas,
                                @RequestParam(required = false) String metodoPago,
                                HttpSession session,
-                               Model model) {
+                               Model model,
+                               SessionStatus sessionStatus) { // ✅ añadido
 
         Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
         if (usuarioActual == null) {
@@ -88,7 +92,6 @@ public class AlquilarController {
                     model.addAttribute("error", "❌ Debes seleccionar un método de pago.");
                     return "menu_alquilar";
                 }
-                // ✅ aquí ahora sí usamos el inquilino correcto
                 reserva = reservaService.crearReserva(usuarioActual.getId(), id, inicio, fin);
                 model.addAttribute("mensaje", "✅ Reserva creada correctamente. Estado: " + reserva.getEstado());
             } else {
@@ -104,7 +107,7 @@ public class AlquilarController {
             model.addAttribute("error", "❌ Error al crear la reserva: " + e.getMessage());
         }
 
+        sessionStatus.setComplete(); // ✅ limpia la sesión al finalizar el flujo
         return "redirect:/inquilino/inicio";
     }
 }
-

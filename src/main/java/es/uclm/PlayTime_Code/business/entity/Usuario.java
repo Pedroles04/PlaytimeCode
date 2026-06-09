@@ -3,6 +3,7 @@ package es.uclm.PlayTime_Code.business.entity;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
@@ -81,4 +82,5 @@ public class Usuario {
     public void setDeseosList(List<Inmueble> listaDeseos) {
         this.listaDeseos = listaDeseos;
     }
+
 }
