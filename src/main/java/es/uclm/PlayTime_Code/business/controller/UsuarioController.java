@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 public class UsuarioController {
 
     static final String USUARIO_ACTUAL = "usuarioActual";
+    static final String REDIRECT_HOME = "redirect:/home";
 
     private final UsuarioService usuarioService;
 
@@ -45,7 +46,7 @@ public class UsuarioController {
         } else if (usuario.getRol() == Rol.INQUILINO) {
             return "redirect:/inquilino/inicio";
         } else {
-            return "redirect:/home";
+            return REDIRECT_HOME;
         }
     }
 
@@ -76,7 +77,7 @@ public class UsuarioController {
         } else if (usuario.getRol() == Rol.INQUILINO) {
             return "redirect:/inquilino/inicio";
         } else {
-            return "redirect:/home";
+            return REDIRECT_HOME;
         }
     }
 
@@ -84,6 +85,6 @@ public class UsuarioController {
     public String cerrarSesion(SessionStatus status, HttpSession session) {
         status.setComplete();
         session.invalidate();
-        return "redirect:/home";
+        return REDIRECT_HOME;
     }
 }
