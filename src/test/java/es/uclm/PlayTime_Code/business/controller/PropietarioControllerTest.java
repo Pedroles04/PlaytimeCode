@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ class PropietarioControllerTest {
     @Mock
     private Model model;
 
+    @Mock
+    private SessionStatus status;
+
     @InjectMocks
     private PropietarioController propietarioController;
 
@@ -35,7 +39,7 @@ class PropietarioControllerTest {
     void mostrarHomePropietario_sinUsuario_redirigeHome() {
 
         String resultado =
-                propietarioController.mostrarHomePropietario(null, model);
+                propietarioController.mostrarHomePropietario(null, model, status);
 
         assertEquals("redirect:/home", resultado);
     }
@@ -47,7 +51,7 @@ class PropietarioControllerTest {
         usuario.setRol(Rol.INQUILINO);
 
         String resultado =
-                propietarioController.mostrarHomePropietario(usuario, model);
+                propietarioController.mostrarHomePropietario(usuario, model, status);
 
         assertEquals("redirect:/home", resultado);
     }
@@ -76,7 +80,8 @@ class PropietarioControllerTest {
         String resultado =
                 propietarioController.mostrarHomePropietario(
                         propietario,
-                        model
+                        model,
+                        status
                 );
 
         assertEquals("home_propietario", resultado);

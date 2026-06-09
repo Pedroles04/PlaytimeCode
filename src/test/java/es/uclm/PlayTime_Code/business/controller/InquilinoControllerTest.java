@@ -124,7 +124,7 @@ class InquilinoControllerTest {
         String resultado = inquilinoController.agregarADeseos(1L, session);
 
         assertEquals("redirect:/inquilino/inicio", resultado);
-        assertTrue(usuario.getDeseosList().contains(inmueble));
+        assertTrue(usuario.getListaDeseos().contains(inmueble));
         verify(usuarioService).guardar(usuario);
     }
 
@@ -135,7 +135,7 @@ class InquilinoControllerTest {
         Inmueble inmueble = new Inmueble();
         inmueble.setId(1L);
 
-        usuario.getDeseosList().add(inmueble);
+        usuario.getListaDeseos().add(inmueble);
 
         when(session.getAttribute("usuarioActual")).thenReturn(usuario);
         when(inmuebleService.buscarPorId(1L)).thenReturn(inmueble);
@@ -153,14 +153,14 @@ class InquilinoControllerTest {
         Inmueble inmueble = new Inmueble();
         inmueble.setId(1L);
 
-        usuario.getDeseosList().add(inmueble);
+        usuario.getListaDeseos().add(inmueble);
 
         when(session.getAttribute("usuarioActual")).thenReturn(usuario);
 
         String resultado = inquilinoController.eliminarDeDeseos(1L, session);
 
         assertEquals("redirect:/inquilino/deseos", resultado);
-        assertTrue(usuario.getDeseosList().isEmpty());
+        assertTrue(usuario.getListaDeseos().isEmpty());
         verify(usuarioService).guardar(usuario);
     }
 
@@ -183,7 +183,7 @@ class InquilinoControllerTest {
         String resultado = inquilinoController.verDeseos(session, model);
 
         assertEquals("/deseos_inquilino", resultado);
-        verify(model).addAttribute("inmuebles", usuario.getDeseosList());
+        verify(model).addAttribute("inmuebles", usuario.getListaDeseos());
         verify(model).addAttribute("usuarioActual", usuario);
     }
 

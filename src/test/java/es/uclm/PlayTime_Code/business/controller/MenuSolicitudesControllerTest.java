@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.List;
 
@@ -32,12 +33,15 @@ class MenuSolicitudesControllerTest {
     @Mock
     private Model model;
 
+    @Mock
+    private SessionStatus status;
+
     @InjectMocks
     private MenuSolicitudesController controller;
 
     @Test
     void verSolicitudes_sinUsuario_redirigeLogin() {
-        String resultado = controller.verSolicitudes(null, model);
+        String resultado = controller.verSolicitudes(null, model, status);
 
         assertEquals("redirect:/usuarios/login", resultado);
     }
@@ -76,7 +80,7 @@ class MenuSolicitudesControllerTest {
         when(reservaService.listarTodas())
                 .thenReturn(List.of(reservaPendiente, reservaConfirmada, reservaAjena));
 
-        String resultado = controller.verSolicitudes(propietario, model);
+        String resultado = controller.verSolicitudes(propietario, model, status);
 
         assertEquals("menu_solicitudes_reserva", resultado);
         verify(model).addAttribute(eq("solicitudes"), anyList());

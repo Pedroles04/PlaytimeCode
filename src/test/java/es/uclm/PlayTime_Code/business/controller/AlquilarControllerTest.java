@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +35,9 @@ class AlquilarControllerTest {
 
     @Mock
     private Model model;
+
+    @Mock
+    private SessionStatus status;
 
     @InjectMocks
     private AlquilarController alquilarController;
@@ -86,7 +90,8 @@ class AlquilarControllerTest {
                 "2026-05-20 to 2026-05-22",
                 "tarjeta",
                 session,
-                model
+                model,
+                status
         );
 
         assertEquals("redirect:/usuarios/login", resultado);
@@ -110,7 +115,8 @@ class AlquilarControllerTest {
                 "fecha-mal",
                 "tarjeta",
                 session,
-                model
+                model,
+                status
         );
 
         assertEquals("menu_alquilar", resultado);
@@ -134,7 +140,8 @@ class AlquilarControllerTest {
                 "2026-05-20 to 2026-05-22",
                 "",
                 session,
-                model
+                model,
+                status
         );
 
         assertEquals("menu_alquilar", resultado);
@@ -167,7 +174,8 @@ class AlquilarControllerTest {
                 "2026-05-20 to 2026-05-22",
                 "tarjeta",
                 session,
-                model
+                model,
+                status
         );
 
         assertEquals("redirect:/inquilino/inicio", resultado);
@@ -201,7 +209,8 @@ class AlquilarControllerTest {
                 "2026-05-20 to 2026-05-22",
                 null,
                 session,
-                model
+                model,
+                status
         );
 
         assertEquals("redirect:/inquilino/inicio", resultado);

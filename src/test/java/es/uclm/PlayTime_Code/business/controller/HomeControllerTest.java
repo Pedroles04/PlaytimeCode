@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.List;
 
@@ -29,6 +30,9 @@ class HomeControllerTest {
 
     @Mock
     private Model model;
+
+    @Mock
+    private SessionStatus status;
 
     @InjectMocks
     private HomeController homeController;
@@ -56,7 +60,7 @@ class HomeControllerTest {
         when(inmuebleService.listarTodos()).thenReturn(List.of(i1, i2));
 
         String resultado = homeController.mostrarHome(
-                null, null, null, null, null, null, session, model
+                null, null, null, null, null, null, session, model, status
         );
 
         assertEquals("home", resultado);
@@ -78,7 +82,7 @@ class HomeControllerTest {
         when(inmuebleService.listarTodos()).thenReturn(List.of(i1, i2));
 
         String resultado = homeController.mostrarHome(
-                "piso", null, null, null, null, null, session, model
+                "piso", null, null, null, null, null, session, model, status
         );
 
         assertEquals("home", resultado);
@@ -97,7 +101,7 @@ class HomeControllerTest {
         when(inmuebleService.listarTodos()).thenReturn(List.of(i1, i2));
 
         String resultado = homeController.mostrarHome(
-                null, "Madrid", null, null, null, null, session, model
+                null, "Madrid", null, null, null, null, session, model, status
         );
 
         assertEquals("home", resultado);
@@ -119,7 +123,7 @@ class HomeControllerTest {
         when(inmuebleService.listarTodos()).thenReturn(List.of(i1, i2));
 
         String resultado = homeController.mostrarHome(
-                null, null, 2, 2, null, null, session, model
+                null, null, 2, 2, null, null, session, model, status
         );
 
         assertEquals("home", resultado);
@@ -140,7 +144,7 @@ class HomeControllerTest {
         when(inmuebleService.listarTodos()).thenReturn(List.of(i1, i2));
 
         String resultado = homeController.mostrarHome(
-                null, null, null, null, "directa", null, session, model
+                null, null, null, null, "directa", null, session, model, status
         );
 
         assertEquals("home", resultado);
@@ -160,7 +164,7 @@ class HomeControllerTest {
         when(inmuebleService.listarTodos()).thenReturn(List.of(i1, i2));
 
         String resultado = homeController.mostrarHome(
-                null, null, null, null, null, "REEMBOLSABLE", session, model
+                null, null, null, null, null, "REEMBOLSABLE", session, model, status
         );
 
         assertEquals("home", resultado);

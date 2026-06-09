@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,6 +27,9 @@ class InmuebleControllerTest {
     @Mock
     private Model model;
 
+    @Mock
+    private SessionStatus status;
+
     @InjectMocks
     private InmuebleController inmuebleController;
 
@@ -33,7 +37,7 @@ class InmuebleControllerTest {
     void mostrarFormulario_sinUsuario_devuelveLogin() {
 
         String resultado =
-                inmuebleController.mostrarFormulario(null, model);
+                inmuebleController.mostrarFormulario(null, model, status);
 
         assertEquals("login", resultado);
 
@@ -50,7 +54,7 @@ class InmuebleControllerTest {
         usuario.setRol(Rol.INQUILINO);
 
         String resultado =
-                inmuebleController.mostrarFormulario(usuario, model);
+                inmuebleController.mostrarFormulario(usuario, model, status);
 
         assertEquals("home", resultado);
 
@@ -67,7 +71,7 @@ class InmuebleControllerTest {
         usuario.setRol(Rol.PROPIETARIO);
 
         String resultado =
-                inmuebleController.mostrarFormulario(usuario, model);
+                inmuebleController.mostrarFormulario(usuario, model, status);
 
         assertEquals("registrar_inmueble", resultado);
     }
@@ -86,7 +90,8 @@ class InmuebleControllerTest {
                 1,
                 true,
                 PoliticaCancelacion.REEMBOLSABLE,
-                model
+                model,
+                status
         );
 
         assertEquals("login", resultado);
@@ -127,7 +132,8 @@ class InmuebleControllerTest {
                 1,
                 true,
                 PoliticaCancelacion.REEMBOLSABLE,
-                model
+                model,
+                status
         );
 
         assertEquals(
@@ -171,7 +177,8 @@ class InmuebleControllerTest {
                 1,
                 true,
                 PoliticaCancelacion.REEMBOLSABLE,
-                model
+                model,
+                status
         );
 
         assertEquals(

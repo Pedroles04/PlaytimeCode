@@ -14,8 +14,8 @@ class UsuarioTest {
         Usuario usuario = new Usuario();
 
         assertNotNull(usuario);
-        assertNotNull(usuario.getDeseosList());
-        assertTrue(usuario.getDeseosList().isEmpty());
+        assertNotNull(usuario.getListaDeseos());
+        assertTrue(usuario.getListaDeseos().isEmpty());
     }
 
     @Test
@@ -80,9 +80,9 @@ class UsuarioTest {
         List<Inmueble> lista = new ArrayList<>();
         lista.add(inmueble);
 
-        usuario.setDeseosList(lista);
+        usuario.setListaDeseos(lista);
 
-        assertEquals(1, usuario.getDeseosList().size());
-        assertEquals("Piso centro", usuario.getDeseosList().get(0).getTitulo());
+        assertEquals(1, usuario.getListaDeseos().size());
+        assertEquals("Piso centro", usuario.getListaDeseos().get(0).getTitulo());
     }
 }
