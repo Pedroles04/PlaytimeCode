@@ -57,10 +57,10 @@ public class Usuario {
     )
     private List<Inmueble> listaDeseos = new ArrayList<>();
     
-    public List<Inmueble> getDeseosList() {
+    public List<Inmueble> getListaDeseos() {
         return listaDeseos;
     }
-    public void setDeseosList(List<Inmueble> listaDeseos) {
+    public void setListaDeseos(List<Inmueble> listaDeseos) {
         this.listaDeseos = listaDeseos;
     }
 }
