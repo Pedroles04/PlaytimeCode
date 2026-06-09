@@ -18,9 +18,11 @@ import es.uclm.PlayTime_Code.business.service.UsuarioService;
 import java.util.*;
 
 @Controller
-@SessionAttributes("usuarioActual")
+@SessionAttributes(InquilinoController.USUARIO_ACTUAL)
 public class InquilinoController {
 
+	static final String USUARIO_ACTUAL = "usuarioActual";
+	
     @Autowired
     private InmuebleService inmuebleService;
 
@@ -32,7 +34,7 @@ public class InquilinoController {
 
     private Map<Long, Set<Long>> listaDeseosPorUsuario = new HashMap<>();
 
-    @ModelAttribute("usuarioActual")
+    @ModelAttribute(USUARIO_ACTUAL)
     public Usuario usuarioActual() {
         return null;
     }
@@ -47,7 +49,7 @@ public class InquilinoController {
                                        HttpSession session,
                                        Model model) {
 
-        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuarioActual = (Usuario) session.getAttribute(USUARIO_ACTUAL);
         if (usuarioActual == null || !usuarioActual.esInquilino()) {
             return "redirect:/home";
         }
@@ -57,7 +59,7 @@ public class InquilinoController {
         inmuebles = aplicarFiltros(inmuebles, search, ciudad, habitaciones, banos, tipoReserva, tipoReembolso);
 
         model.addAttribute("inmuebles", inmuebles);
-        model.addAttribute("usuarioActual", usuarioActual);
+        model.addAttribute(USUARIO_ACTUAL, usuarioActual);
         model.addAttribute("busqueda", search);
         model.addAttribute("ciudadSeleccionada", ciudad);
         model.addAttribute("habitaciones", habitaciones);
@@ -75,7 +77,7 @@ public class InquilinoController {
 
     @PostMapping("inquilino/deseos/agregar/{id}")
     public String agregarADeseos(@PathVariable Long id, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuario = (Usuario) session.getAttribute(USUARIO_ACTUAL);
         Inmueble inmueble = inmuebleService.buscarPorId(id);
 
         if (usuario != null && inmueble != null) {
@@ -89,7 +91,7 @@ public class InquilinoController {
 
     @PostMapping("inquilino/deseos/eliminar/{id}")
     public String eliminarDeDeseos(@PathVariable Long id, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuario = (Usuario) session.getAttribute(USUARIO_ACTUAL);
 
         if (usuario != null) {
             usuario.getListaDeseos().removeIf(i -> i.getId().equals(id));
@@ -101,21 +103,21 @@ public class InquilinoController {
 
     @GetMapping("inquilino/deseos")
     public String verDeseos(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuario = (Usuario) session.getAttribute(USUARIO_ACTUAL);
 
         if (usuario == null || !usuario.esInquilino()) {
             return "redirect:/home";
         }
 
         model.addAttribute("inmuebles", usuario.getListaDeseos());
-        model.addAttribute("usuarioActual", usuario);
+        model.addAttribute(USUARIO_ACTUAL, usuario);
 
         return "/deseos_inquilino";
     }
 
     @GetMapping("inquilino/historial")
     public String verHistorialReservas(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuario = (Usuario) session.getAttribute(USUARIO_ACTUAL);
 
         if (usuario == null || !usuario.esInquilino()) {
             return "redirect:/home";
@@ -143,7 +145,7 @@ public class InquilinoController {
 
         model.addAttribute("reservas", reservasUsuario);
         model.addAttribute("reembolsos", reembolsos);
-        model.addAttribute("usuarioActual", usuario);
+        model.addAttribute(USUARIO_ACTUAL, usuario);
 
         return "/historial_reservas";
     }
