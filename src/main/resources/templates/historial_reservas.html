@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Reservas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        /* === HEADER === */
+        .header {
+            background-color: #d9d9d9;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .user-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .icon-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .wishlist-icon {
+            background-color: #FFD700;
+        }
+        .menu-icon {
+            background-color: #2196F3;
+            color: white;
+        }
+        .menu-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 10px;
+            min-width: 200px;
+            z-index: 100;
+        }
+        .menu-dropdown.active {
+            display: block;
+        }
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .menu-item:hover {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        /* === TABLA HISTORIAL === */
+        .container {
+            padding: 40px;
+        }
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 18px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #2196F3;
+            color: white;
+            font-size: 16px;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-volver {
+            display: block;
+            margin: 30px auto;
+            text-align: center;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 150px;
+        }
+        .btn-volver:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- === HEADER === -->
+    <div class="header">
+        <div class="logo">
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+    			<span th:text="${usuarioActual.nombre}">Nombre Usuario</span>
+        </div>
+
+        <div class="header-icons">
+            <div class="icon-button wishlist-icon">
+                <a th:href="@{/inquilino/deseos}">
+                    <svg class="star" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFA500" stroke-width="1">
+                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"></polygon>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="icon-button menu-icon" onclick="toggleMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <div class="menu-item">
+                        <a href="#" onclick="window.location.href='/inquilino/historial'">Historial de reservas</a>
+                    </div>
+                    <div class="menu-item">
+                        <a th:href="@{/usuarios/logout}">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	
+    <!-- === CONTENIDO === -->
+    <div class="container">
+        <div class="section-title">Historial de Reservas</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Inmueble</th>
+                    <th>Ciudad</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Precio Total (€)</th>
+                    <th>Estado</th>
+                    <th>Reembolso (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reserva, iterStat : ${reservas}">
+                    <td th:text="${reserva.inmueble.titulo}">Título</td>
+                    <td th:text="${reserva.inmueble.ciudad}">Ciudad</td>
+                    <td th:text="${reserva.fechaInicio}">Inicio</td>
+                    <td th:text="${reserva.fechaFin}">Fin</td>
+                    <td th:text="${reserva.precioTotal}">100.0</td>
+                    <td th:text="${reserva.estado}">CONFIRMADA</td>
+                    <td th:text="${reembolsos.size() > iterStat.index ? reembolsos[iterStat.index] : 0}">0.0</td>
+                </tr>
+            </tbody>
+        </table>
+
+         <a th:href="@{/inquilino/inicio}" class="btn-volver">Cerrar Historial</a>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.toggle('active');
+        }
+        document.addEventListener('click', function(event) {
+            const menuIcon = event.target.closest('.menu-icon');
+            if (!menuIcon) {
+                document.getElementById('menuDropdown').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

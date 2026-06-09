@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro - Alquiler de Pisos</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      border-radius: 14px;
+      padding: 40px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      width: 420px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      text-align: center;
+      color: #1e3a8a;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #1f2937;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .mensaje-error {
+      color: #b91c1c;
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .link a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Crear una cuenta</h2>
+
+  <div th:if="${error}" class="mensaje-error" th:text="${error}"></div>
+
+  <form action="/usuarios/registrar" method="post">
+    <label for="login">Usuario</label>
+    <input type="text" id="login" name="login" placeholder="Tu usuario" required>
+
+    <label for="pass">Contraseña</label>
+    <input type="password" id="pass" name="pass" placeholder="********" required>
+
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+
+    <label for="apellidos">Apellidos</label>
+    <input type="text" id="apellidos" name="apellidos" placeholder="Tus apellidos" required>
+
+    <label for="direccion">Dirección</label>
+    <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle Real 25, Madrid" required>
+
+    <label for="rol">Rol</label>
+    <select id="rol" name="rol" required>
+      <option value="">Selecciona tu rol</option>
+      <option value="INQUILINO">Inquilino</option>
+      <option value="PROPIETARIO">Propietario</option>
+    </select>
+
+    <button type="submit">Registrarse</button>
+  </form>
+
+  <div class="link">
+    ¿Ya tienes cuenta?
+    <a href="/usuarios/login">Inicia sesión aquí</a>
+  </div>
+</div>
+
+</body>
+</html>
