@@ -44,39 +44,7 @@ public class HomeController {
         // 🔎 Filtros dinámicos
         List<Inmueble> inmuebles = inmuebleService.listarTodos();
 
-        if (search != null && !search.isBlank()) {
-            String searchLower = search.toLowerCase();
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getTitulo() != null && i.getTitulo().toLowerCase().contains(searchLower))
-                    .toList();
-        }
-        if (ciudad != null && !ciudad.isBlank()) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getCiudad() != null && i.getCiudad().equalsIgnoreCase(ciudad))
-                    .toList();
-        }
-        if (habitaciones != null && habitaciones > 0) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getNumHabitaciones() >= habitaciones)
-                    .toList();
-        }
-        if (banos != null && banos > 0) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getNumBanos() >= banos)
-                    .toList();
-        }
-        if (tipoReserva != null && !tipoReserva.isBlank()) {
-            boolean directa = tipoReserva.equalsIgnoreCase("directa");
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.isReservaInmediata() == directa)
-                    .toList();
-        }
-        if (tipoReembolso != null && !tipoReembolso.isBlank()) {
-            inmuebles = inmuebles.stream()
-                    .filter(i -> i.getPoliticaCancelacion() != null
-                            && i.getPoliticaCancelacion().name().equalsIgnoreCase(tipoReembolso))
-                    .toList();
-        }
+        inmuebles = aplicarFiltros(inmuebles, search, ciudad, habitaciones, banos, tipoReserva, tipoReembolso);
 
         model.addAttribute(USUARIO_ACTUAL, usuarioActual);
         model.addAttribute("inmuebles", inmuebles);
@@ -95,4 +63,43 @@ public class HomeController {
         sessionStatus.setComplete(); // ✅ limpia la sesión al finalizar
         return "home";
     }
+    private List<Inmueble> aplicarFiltros(List<Inmueble> inmuebles,
+            								String search, String ciudad,
+            								Integer habitaciones, Integer banos,
+            								String tipoReserva, String tipoReembolso) {
+    	if (search != null && !search.isBlank()) {
+    		String searchLower = search.toLowerCase();
+    		inmuebles = inmuebles.stream()
+    				.filter(i -> i.getTitulo() != null && i.getTitulo().toLowerCase().contains(searchLower))
+    				.toList();
+    	}
+    	if (ciudad != null && !ciudad.isBlank()) {
+    		inmuebles = inmuebles.stream()
+    				.filter(i -> i.getCiudad() != null && i.getCiudad().equalsIgnoreCase(ciudad))
+    				.toList();
+    	}
+    	if (habitaciones != null && habitaciones > 0) {
+    		inmuebles = inmuebles.stream()
+    				.filter(i -> i.getNumHabitaciones() >= habitaciones)
+    				.toList();
+}
+    	if (banos != null && banos > 0) {
+    		inmuebles = inmuebles.stream()
+    				.filter(i -> i.getNumBanos() >= banos)
+    				.toList();
+    	}
+    	if (tipoReserva != null && !tipoReserva.isBlank()) {
+    		boolean directa = tipoReserva.equalsIgnoreCase("directa");
+    		inmuebles = inmuebles.stream()
+    				.filter(i -> i.isReservaInmediata() == directa)
+    				.toList();
+    	}
+    	if (tipoReembolso != null && !tipoReembolso.isBlank()) {
+    		inmuebles = inmuebles.stream()
+    				.filter(i -> i.getPoliticaCancelacion() != null
+    				&& i.getPoliticaCancelacion().name().equalsIgnoreCase(tipoReembolso))
+    				.toList();
+    	}
+    	return inmuebles;
+}
 }
