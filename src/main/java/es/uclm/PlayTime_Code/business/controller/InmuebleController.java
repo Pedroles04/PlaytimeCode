@@ -15,6 +15,8 @@ import es.uclm.PlayTime_Code.business.service.InmuebleService;
 @RequestMapping("/inmuebles")
 @SessionAttributes("usuarioActual")
 public class InmuebleController {
+	
+	static final String ERROR = "error";
 
     @Autowired
     private InmuebleService inmuebleService;
@@ -24,12 +26,12 @@ public class InmuebleController {
                                     Model model,
                                     SessionStatus sessionStatus) {
         if (usuario == null) {
-            model.addAttribute("error", "Debes iniciar sesión primero");
+            model.addAttribute(ERROR, "Debes iniciar sesión primero");
             sessionStatus.setComplete();
             return "login";
         }
         if (usuario.getRol() != Rol.PROPIETARIO) {
-            model.addAttribute("error", "Solo los propietarios pueden registrar inmuebles");
+            model.addAttribute(ERROR, "Solo los propietarios pueden registrar inmuebles");
             sessionStatus.setComplete();
             return "home";
         }
@@ -53,7 +55,7 @@ public class InmuebleController {
             SessionStatus sessionStatus) {
 
         if (usuario == null) {
-            model.addAttribute("error", "Debes iniciar sesión.");
+            model.addAttribute(ERROR, "Debes iniciar sesión.");
             sessionStatus.setComplete();
             return "login";
         }
@@ -76,7 +78,7 @@ public class InmuebleController {
             sessionStatus.setComplete();
             return "redirect:/propietario/inicio";
         } else {
-            model.addAttribute("error", "❌ Error al registrar inmueble (verifica tu rol o datos)");
+            model.addAttribute(ERROR, "❌ Error al registrar inmueble (verifica tu rol o datos)");
             sessionStatus.setComplete();
             return "registrar_inmueble";
         }
