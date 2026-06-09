@@ -1,11 +1,9 @@
 package es.uclm.PlayTime_Code.business.controller;
 
-
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
@@ -18,23 +16,20 @@ import java.util.List;
 @SessionAttributes("usuarioActual")
 public class PropietarioController {
 
-    @Autowired
-    private InmuebleService inmuebleService;
+    private final InmuebleService inmuebleService;
 
+    public PropietarioController(InmuebleService inmuebleService) {
+        this.inmuebleService = inmuebleService;
+    }
 
-    /**
-     * Página principal del propietario (home_propietario.html)
-     */
     @GetMapping("/inicio")
     public String mostrarHomePropietario(@ModelAttribute("usuarioActual") Usuario usuarioActual,
-                                         Model model) {
-
-        //Si no hay sesión o no es propietario: redirige al home general
+                                         Model model,
+                                         SessionStatus sessionStatus) {
         if (usuarioActual == null || !usuarioActual.esPropietario()) {
             return "redirect:/home";
         }
 
-        //Filtramos inmuebles del propietario actual
         List<Inmueble> inmuebles = inmuebleService.listarTodos().stream()
                 .filter(i -> i.getPropietario() != null &&
                              i.getPropietario().getId().equals(usuarioActual.getId()))
@@ -45,7 +40,7 @@ public class PropietarioController {
 
         return "home_propietario";
     }
-    
+
     @PostMapping("/eliminar/{id}")
     public String eliminarInmueble(@PathVariable Long id) {
         Inmueble inmueble = inmuebleService.buscarPorId(id);
