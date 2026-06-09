@@ -28,6 +28,7 @@ public class AlquilarController {
 
     static final String USUARIO_ACTUAL = "usuarioActual";
     static final String FECHAS_OCUPADAS = "fechasOcupadas";
+    static final String MENU_ALQUILAR = "menu_alquilar";
 
     private final InmuebleService inmuebleService;
     private final ReservaService reservaService;
@@ -54,7 +55,7 @@ public class AlquilarController {
         model.addAttribute(FECHAS_OCUPADAS, fechasOcupadas);
         model.addAttribute(USUARIO_ACTUAL, usuarioActual);
 
-        return "menu_alquilar";
+        return MENU_ALQUILAR;
     }
 
     @PostMapping("/alquilar/{id}")
@@ -82,7 +83,7 @@ public class AlquilarController {
             String[] fechas = rangoFechas.split(" to ");
             if (fechas.length != 2) {
                 model.addAttribute("error", "❌ Rango de fechas inválido.");
-                return "menu_alquilar";
+                return MENU_ALQUILAR;
             }
 
             LocalDate inicio = LocalDate.parse(fechas[0], DateTimeFormatter.ISO_DATE);
@@ -92,7 +93,7 @@ public class AlquilarController {
             if (inmueble.isReservaInmediata()) {
                 if (metodoPago == null || metodoPago.isBlank()) {
                     model.addAttribute("error", "❌ Debes seleccionar un método de pago.");
-                    return "menu_alquilar";
+                    return MENU_ALQUILAR;
                 }
                 reserva = reservaService.crearReserva(usuarioActual.getId(), id, inicio, fin);
                 model.addAttribute("mensaje", "✅ Reserva creada correctamente. Estado: " + reserva.getEstado());
