@@ -13,7 +13,12 @@ public class Inmueble {
     private Long id;
     private String titulo;
     private String descripcion;
-    private String direccion;
+    @Embedded
+    private Direccion direccion;
+
+    // Cambia los Getters y Setters eliminando setCiudad/getCiudad si ya no los usas sueltos
+    public Direccion getDireccion() { return direccion; }
+    public void setDireccion(Direccion direccion) { this.direccion = direccion; }
     private String ciudad;
     private double precioPorNoche;
     private int numHabitaciones;
@@ -43,8 +48,6 @@ public class Inmueble {
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public String getDireccion() { return direccion; }
-    public void setDireccion(String direccion) { this.direccion = direccion; }
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
     public double getPrecioPorNoche() { return precioPorNoche; }

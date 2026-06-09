@@ -12,7 +12,6 @@ import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.business.service.InmuebleService;
-import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.service.ReservaService;
 
 @Controller
@@ -30,15 +29,15 @@ public class MenuSolicitudesController {
 
     @GetMapping("/solicitudes")
     public String verSolicitudes(@ModelAttribute("usuarioActual") Usuario usuarioActual,
-                                  Model model,
-                                  SessionStatus sessionStatus) {
+                                 Model model,
+                                 SessionStatus sessionStatus) {
         if (usuarioActual == null) {
             return "redirect:/usuarios/login";
         }
 
         List<Inmueble> inmueblesPropietario = new ArrayList<>();
         for (Inmueble i : inmuebleService.listarTodos()) {
-            if (i.getPropietario().getId().equals(usuarioActual.getId())) {
+            if (i.getPropietario() != null && i.getPropietario().getId().equals(usuarioActual.getId())) {
                 inmueblesPropietario.add(i);
             }
         }
@@ -46,7 +45,8 @@ public class MenuSolicitudesController {
         List<Reserva> reservasSolicitadas = new ArrayList<>();
         for (Inmueble inmueble : inmueblesPropietario) {
             for (Reserva r : reservaService.listarTodas()) {
-                if (r.getInmueble().getId().equals(inmueble.getId()) &&
+                if (r.getInmueble() != null && 
+                    r.getInmueble().getId().equals(inmueble.getId()) &&
                     r.getEstado() == Reserva.EstadoReserva.PENDIENTE) {
                     reservasSolicitadas.add(r);
                 }
@@ -54,7 +54,9 @@ public class MenuSolicitudesController {
         }
 
         model.addAttribute("solicitudes", reservasSolicitadas);
-        return "menu_solicitudes_reserva";
+        
+        // CORREGIDO: Retorna el nombre exacto de tu archivo HTML sin guiones bajos
+        return "menusolicitudesreserva";
     }
 
     @PostMapping("/solicitudes/confirmar/{id}")

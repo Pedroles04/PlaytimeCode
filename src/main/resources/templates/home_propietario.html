@@ -72,7 +72,7 @@
                  th:onclick="'toggleCard(event,' + ${iterStat.index} + ')'">
 
                 <div th:text="${inmueble.titulo}" style="font-weight: bold; margin-bottom: 5px;"></div>
-                <div th:text="${inmueble.direccion}" style="color: #555;"></div>
+                <div th:text="${inmueble.direccion.getDireccionCompleta()}" style="color: #555;"></div>
 
                 <div class="card-dropdown" th:id="'cardDropdown' + ${iterStat.index}">
                     <div class="card-option"><a th:href="@{'/inmuebles/editar/' + ${inmueble.id}}">Editar</a></div>

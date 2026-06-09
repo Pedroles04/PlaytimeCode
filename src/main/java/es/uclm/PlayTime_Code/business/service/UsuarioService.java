@@ -1,10 +1,9 @@
 package es.uclm.PlayTime_Code.business.service;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion; // NUEVO IMPORT
 import es.uclm.PlayTime_Code.business.entity.Rol;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.persistence.UsuarioDAO;
@@ -15,7 +14,8 @@ public class UsuarioService {
     @Autowired
     private UsuarioDAO usuarioDAO;
 
-    public boolean registrarUsuario(String login, String pass, String nombre, String apellidos, String direccion, String rolStr) {
+    // Firma modificada: Cambiado String direccion por Direccion direccion
+    public boolean registrarUsuario(String login, String pass, String nombre, String apellidos, Direccion direccion, String rolStr) {
         if (usuarioDAO.existeLogin(login)) return false;
 
         Rol rol;
@@ -31,7 +31,7 @@ public class UsuarioService {
         u.setPass(pass);
         u.setNombre(nombre);
         u.setApellidos(apellidos);
-        u.setDireccion(direccion);
+        u.setDireccion(direccion); // Setea el objeto embebido directamente
         u.setRol(rol);
 
         usuarioDAO.guardar(u);

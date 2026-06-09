@@ -21,13 +21,15 @@ class UsuarioTest {
     @Test
     void gettersYSetters_funcionanCorrectamente() {
         Usuario usuario = new Usuario();
+        Direccion direccion = new Direccion();
+        direccion.setNombreVia("Calle Mayor");
 
         usuario.setId(1L);
         usuario.setLogin("ana");
         usuario.setPass("1234");
         usuario.setNombre("Ana");
         usuario.setApellidos("García");
-        usuario.setDireccion("Calle Mayor");
+        usuario.setDireccion(direccion); // Modificado para pasar objeto completo
         usuario.setRol(Rol.INQUILINO);
 
         assertEquals(1L, usuario.getId());
@@ -35,7 +37,8 @@ class UsuarioTest {
         assertEquals("1234", usuario.getPass());
         assertEquals("Ana", usuario.getNombre());
         assertEquals("García", usuario.getApellidos());
-        assertEquals("Calle Mayor", usuario.getDireccion());
+        assertEquals(direccion, usuario.getDireccion());
+        assertEquals("Calle Mayor", usuario.getDireccion().getNombreVia());
         assertEquals(Rol.INQUILINO, usuario.getRol());
     }
 

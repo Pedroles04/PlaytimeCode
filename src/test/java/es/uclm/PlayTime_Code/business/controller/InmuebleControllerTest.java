@@ -1,5 +1,6 @@
 package es.uclm.PlayTime_Code.business.controller;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion;
 import es.uclm.PlayTime_Code.business.entity.PoliticaCancelacion;
 import es.uclm.PlayTime_Code.business.entity.Rol;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
@@ -35,10 +36,7 @@ class InmuebleControllerTest {
 
     @Test
     void mostrarFormulario_sinUsuario_devuelveLogin() {
-
-        String resultado =
-                inmuebleController.mostrarFormulario(null, model, status);
-
+        String resultado = inmuebleController.mostrarFormulario(null, model, status);
         assertEquals("login", resultado);
 
         verify(model).addAttribute(
@@ -49,13 +47,10 @@ class InmuebleControllerTest {
 
     @Test
     void mostrarFormulario_usuarioNoPropietario_devuelveHome() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.INQUILINO);
 
-        String resultado =
-                inmuebleController.mostrarFormulario(usuario, model, status);
-
+        String resultado = inmuebleController.mostrarFormulario(usuario, model, status);
         assertEquals("home", resultado);
 
         verify(model).addAttribute(
@@ -66,32 +61,21 @@ class InmuebleControllerTest {
 
     @Test
     void mostrarFormulario_propietario_devuelveVistaRegistro() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.PROPIETARIO);
 
-        String resultado =
-                inmuebleController.mostrarFormulario(usuario, model, status);
-
+        String resultado = inmuebleController.mostrarFormulario(usuario, model, status);
         assertEquals("registrar_inmueble", resultado);
     }
 
     @Test
     void registrarInmueble_sinUsuario_devuelveLogin() {
-
         String resultado = inmuebleController.registrarInmueble(
                 null,
-                "Casa",
-                "Calle 1",
-                "Madrid",
-                "Bonita",
-                100,
-                2,
-                1,
-                true,
+                "Casa", "Calle 1", "No", "00000", "Madrid", "Comunidad", "Pais", "Extra1", "Extra2",
+                100.0, 2, 1, true,
                 PoliticaCancelacion.REEMBOLSABLE,
-                model,
-                status
+                model
         );
 
         assertEquals("login", resultado);
@@ -104,18 +88,16 @@ class InmuebleControllerTest {
 
     @Test
     void registrarInmueble_correcto_redirigeInicioPropietario() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.PROPIETARIO);
 
         when(inmuebleService.registrarInmueble(
                 any(),
                 anyString(),
-                anyString(),
+                any(Direccion.class),
                 anyString(),
                 anyDouble(),
                 anyBoolean(),
-                anyString(),
                 anyInt(),
                 anyInt(),
                 any()
@@ -123,17 +105,10 @@ class InmuebleControllerTest {
 
         String resultado = inmuebleController.registrarInmueble(
                 usuario,
-                "Casa",
-                "Calle 1",
-                "Madrid",
-                "Bonita",
-                100,
-                2,
-                1,
-                true,
+                "Casa", "Calle 1", "No", "00000", "Madrid", "Comunidad", "Pais", "Extra1", "Extra2",
+                100.0, 2, 1, true,
                 PoliticaCancelacion.REEMBOLSABLE,
-                model,
-                status
+                model
         );
 
         assertEquals(
@@ -149,18 +124,16 @@ class InmuebleControllerTest {
 
     @Test
     void registrarInmueble_errorDevuelveFormulario() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.PROPIETARIO);
 
         when(inmuebleService.registrarInmueble(
                 any(),
                 anyString(),
-                anyString(),
+                any(Direccion.class),
                 anyString(),
                 anyDouble(),
                 anyBoolean(),
-                anyString(),
                 anyInt(),
                 anyInt(),
                 any()
@@ -168,17 +141,10 @@ class InmuebleControllerTest {
 
         String resultado = inmuebleController.registrarInmueble(
                 usuario,
-                "Casa",
-                "Calle 1",
-                "Madrid",
-                "Bonita",
-                100,
-                2,
-                1,
-                true,
+                "Casa", "Calle 1", "No", "00000", "Madrid", "Comunidad", "Pais", "Extra1", "Extra2",
+                100.0, 2, 1, true,
                 PoliticaCancelacion.REEMBOLSABLE,
-                model,
-                status
+                model
         );
 
         assertEquals(

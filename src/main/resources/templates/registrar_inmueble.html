@@ -97,11 +97,29 @@
       <label for="titulo">Título</label>
       <input type="text" id="titulo" name="titulo" placeholder="Ej: Piso en el centro" required>
 
-      <label for="direccion">Dirección</label>
-      <input type="text" id="direccion" name="direccion" placeholder="Calle, número, piso..." required>
-
-      <label for="ciudad">Ciudad</label>
-      <input type="text" id="ciudad" name="ciudad" placeholder="Ej: Talavera de la Reina" required>
+      <label>Ubicación del Inmueble</label>
+		<div style="display: flex; gap: 10px;">
+		  <select name="tipoVia" required>
+		    <option value="Calle">Calle</option>
+		    <option value="Avenida">Avenida</option>
+		    <option value="Plaza">Plaza</option>
+		    <option value="Paseo">Paseo</option>
+		  </select>
+		  <input type="text" name="nombreVia" placeholder="Nombre de la calle" required>
+		</div>
+		
+		<div style="display: flex; gap: 10px;">
+		  <input type="text" name="numero" placeholder="Nº" style="width: 30%;" required>
+		  <input type="text" name="pisoPortal" placeholder="Piso/Portal" style="width: 70%;">
+		</div>
+		
+		<div style="display: flex; gap: 10px;">
+		  <input type="text" name="codigoPostal" placeholder="C.P." style="width: 30%;" required>
+		  <input type="text" name="localidad" placeholder="Localidad/Ciudad" style="width: 70%;" required>
+		</div>
+		
+		<label th:for="provincia">Provincia</label>
+		<input type="text" name="provincia" placeholder="Provincia" required>
 
       <label for="descripcion">Descripción</label>
       <textarea id="descripcion" name="descripcion" placeholder="Escribe una breve descripción del inmueble..."></textarea>

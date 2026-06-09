@@ -114,8 +114,29 @@
     <label for="apellidos">Apellidos</label>
     <input type="text" id="apellidos" name="apellidos" placeholder="Tus apellidos" required>
 
-    <label for="direccion">Dirección</label>
-    <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle Real 25, Madrid" required>
+    <label>Dirección</label>
+	<div style="display: flex; gap: 10px;">
+	  <select name="tipoVia" style="width: 30%;" required>
+	    <option value="Calle">Calle</option>
+	    <option value="Avenida">Avenida</option>
+	    <option value="Plaza">Plaza</option>
+	    <option value="Paseo">Paseo</option>
+	  </select>
+	  <input type="text" name="nombreVia" placeholder="Nombre de la calle" style="width: 70%;" required>
+	</div>
+	
+	<div style="display: flex; gap: 10px;">
+	  <input type="text" name="numero" placeholder="Nº" style="width: 30%;" required>
+	  <input type="text" name="pisoPortal" placeholder="Piso/Portal (Ej: 3ºB)" style="width: 70%;">
+	</div>
+	
+	<div style="display: flex; gap: 10px;">
+	  <input type="text" name="codigoPostal" placeholder="C.P." style="width: 30%;" required>
+	  <input type="text" name="localidad" placeholder="Localidad" style="width: 70%;" required>
+	</div>
+	
+	<label for="provincia">Provincia</label>
+	<input type="text" id="provincia" name="provincia" placeholder="Ej: Toledo" required>
 
     <label for="rol">Rol</label>
     <select id="rol" name="rol" required>

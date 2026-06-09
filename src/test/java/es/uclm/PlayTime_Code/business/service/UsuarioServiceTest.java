@@ -1,5 +1,6 @@
 package es.uclm.PlayTime_Code.business.service;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion;
 import es.uclm.PlayTime_Code.business.entity.Rol;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.persistence.UsuarioDAO;
@@ -24,14 +25,10 @@ class UsuarioServiceTest {
     @Test
     void registrarUsuario_cuandoLoginNoExisteYRolValido_devuelveTrueYGuardaUsuario() {
         when(usuarioDAO.existeLogin("ana")).thenReturn(false);
+        Direccion direccion = new Direccion();
 
         boolean resultado = usuarioService.registrarUsuario(
-                "ana",
-                "1234",
-                "Ana",
-                "García",
-                "Calle Mayor",
-                "INQUILINO"
+                "ana", "1234", "Ana", "García", direccion, "INQUILINO"
         );
 
         assertTrue(resultado);
@@ -42,17 +39,13 @@ class UsuarioServiceTest {
     @Test
     void registrarUsuario_cuandoLoginYaExiste_devuelveFalseYNoGuarda() {
         when(usuarioDAO.existeLogin("ana")).thenReturn(true);
+        Direccion direccion = new Direccion();
 
         boolean resultado = usuarioService.registrarUsuario(
-                "ana",
-                "1234",
-                "Ana",
-                "García",
-                "Calle Mayor",
-                "INQUILINO"
+                "ana", "1234", "Ana", "García", direccion, "INQUILINO"
         );
 
-        assertFalse(resultado);
+        falseDelta: assertFalse(resultado);
         verify(usuarioDAO, times(1)).existeLogin("ana");
         verify(usuarioDAO, never()).guardar(any(Usuario.class));
     }
@@ -60,14 +53,10 @@ class UsuarioServiceTest {
     @Test
     void registrarUsuario_cuandoRolNoExiste_devuelveFalseYNoGuarda() {
         when(usuarioDAO.existeLogin("ana")).thenReturn(false);
+        Direccion direccion = new Direccion();
 
         boolean resultado = usuarioService.registrarUsuario(
-                "ana",
-                "1234",
-                "Ana",
-                "García",
-                "Calle Mayor",
-                "ROL_INVENTADO"
+                "ana", "1234", "Ana", "García", direccion, "ROL_INVENTADO"
         );
 
         assertFalse(resultado);

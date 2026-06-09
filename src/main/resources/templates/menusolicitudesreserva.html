@@ -50,7 +50,6 @@
     </style>
 </head>
 <body>
-    <!-- HEADER -->
     <div class="header">
         <div class="logo">
             <div class="user-icon">
@@ -58,11 +57,9 @@
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                 </svg>
             </div>
-  				  <span th:text="${usuarioActual.nombre}">Nombre Usuario</span>
+            <span th:text="${usuarioActual.nombre}">Nombre Usuario</span>
         </div>
 
-		
-        <!-- MENU -->
         <div class="menu-icon" onclick="toggleMenu()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -72,12 +69,11 @@
             <div class="menu-dropdown" id="menuDropdown">
                 <div class="menu-item"><a th:href="@{/usuarios/logout}">Cerrar sesión</a></div>
                 <div class="menu-item"><a th:href="@{/inmuebles/registrar}">Registrar inmueble</a></div>
-                <div class="menu-item"><a th:href="@{/solicitudes}">Solicitudes reserva</a></div>
+                <div class="menu-item"><a th:href="@{/propietario/solicitudes}">Solicitudes reserva</a></div>
             </div>
         </div>
     </div>
 
-    <!-- CONTENIDO -->
     <div class="container">
         <div class="section-title">Solicitudes de Reserva</div>
         <div class="inmuebles-grid">
@@ -88,7 +84,9 @@
 
             <div th:each="reserva : ${solicitudes}" class="inmueble-card">
                 <h3 th:text="${reserva.inmueble.titulo}">Título Inmueble</h3>
+                
                 <p th:text="${reserva.inmueble.direccion}">Dirección</p>
+                
                 <div class="reserva-list">
                     <div class="reserva-item">
                         <span th:text="'Inquilino: ' + ${reserva.inquilino.nombre} + ' ' + ${reserva.inquilino.apellidos}"></span>

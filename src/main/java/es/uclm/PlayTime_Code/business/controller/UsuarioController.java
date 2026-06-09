@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion;
 import es.uclm.PlayTime_Code.business.entity.Rol;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.business.service.UsuarioService;
@@ -60,10 +61,28 @@ public class UsuarioController {
                                    @RequestParam String pass,
                                    @RequestParam String nombre,
                                    @RequestParam String apellidos,
-                                   @RequestParam String direccion,
+                                   @RequestParam String tipoVia,
+                                   @RequestParam String nombreVia,
+                                   @RequestParam String numero,
+                                   @RequestParam(required = false) String pisoPortal,
+                                   @RequestParam String codigoPostal,
+                                   @RequestParam String localidad,
+                                   @RequestParam String provincia,
                                    @RequestParam String rol,
                                    Model model,
                                    HttpSession session) {
+        
+        // Construimos el objeto dirección
+        Direccion direccion = new Direccion();
+        direccion.setTipoVia(tipoVia);
+        direccion.setNombreVia(nombreVia);
+        direccion.setNumero(numero);
+        direccion.setPisoPortal(pisoPortal);
+        direccion.setCodigoPostal(codigoPostal);
+        direccion.setLocalidad(localidad);
+        direccion.setProvincia(provincia);
+
+        // Envías el objeto dirección a tu servicio (debes actualizar el método en tu Service)
         boolean ok = usuarioService.registrarUsuario(login, pass, nombre, apellidos, direccion, rol);
         if (!ok) {
             model.addAttribute("error", "Error al registrar usuario (login existente o rol inválido)");

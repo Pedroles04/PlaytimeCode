@@ -1,5 +1,6 @@
 package es.uclm.PlayTime_Code.business.service;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion;
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.PoliticaCancelacion;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
@@ -29,15 +30,15 @@ class InmuebleServiceTest {
     @Test
     void registrarInmueble_conDatosValidos_devuelveTrueYGuardaInmueble() {
         Usuario propietario = new Usuario();
+        Direccion direccion = new Direccion(); // Cambiado de String a objeto Direccion
 
         boolean resultado = inmuebleService.registrarInmueble(
                 propietario,
                 "Piso centro",
-                "Calle Mayor",
+                direccion,
                 "Piso bonito",
                 80.0,
                 true,
-                "Ciudad Real",
                 2,
                 1,
                 PoliticaCancelacion.REEMBOLSABLE
@@ -50,17 +51,17 @@ class InmuebleServiceTest {
     @Test
     void registrarInmueble_cuandoDaoFalla_devuelveFalse() {
         Usuario propietario = new Usuario();
+        Direccion direccion = new Direccion();
 
         doThrow(new RuntimeException()).when(inmuebleDAO).guardar(any(Inmueble.class));
 
         boolean resultado = inmuebleService.registrarInmueble(
                 propietario,
                 "Piso centro",
-                "Calle Mayor",
+                direccion,
                 "Piso bonito",
                 80.0,
                 true,
-                "Ciudad Real",
                 2,
                 1,
                 PoliticaCancelacion.REEMBOLSABLE
@@ -73,11 +74,12 @@ class InmuebleServiceTest {
     @Test
     void registrarInmueble_versionCorta_devuelveTrueYGuardaInmueble() {
         Usuario propietario = new Usuario();
+        Direccion direccion = new Direccion();
 
         boolean resultado = inmuebleService.registrarInmueble(
                 propietario,
                 "Piso centro",
-                "Calle Mayor",
+                direccion,
                 "Piso bonito",
                 80.0,
                 true

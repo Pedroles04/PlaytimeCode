@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion;
 import es.uclm.PlayTime_Code.business.entity.PoliticaCancelacion;
 import es.uclm.PlayTime_Code.business.entity.Rol;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
@@ -40,30 +41,44 @@ public class InmuebleController {
     public String registrarInmueble(
             @SessionAttribute(value = "usuarioActual", required = false) Usuario usuario,
             @RequestParam String titulo,
-            @RequestParam String direccion,
-            @RequestParam String ciudad,
+            @RequestParam String tipoVia,
+            @RequestParam String nombreVia,
+            @RequestParam String numero,
+            @RequestParam(required = false) String pisoPortal,
+            @RequestParam String codigoPostal,
+            @RequestParam String localidad,
+            @RequestParam String provincia,
             @RequestParam String descripcion,
             @RequestParam double precio,
             @RequestParam int numHabitaciones,
             @RequestParam int numBanos,
             @RequestParam(defaultValue = "false") boolean reservaDirecta,
             @RequestParam PoliticaCancelacion politicaCancelacion,
-            Model model,
-            SessionStatus sessionStatus) {
+            Model model) {
 
         if (usuario == null) {
             model.addAttribute(ERROR, "Debes iniciar sesión.");
             return "login";
         }
 
+        // Construimos la dirección del inmueble
+        Direccion direccion = new Direccion();
+        direccion.setTipoVia(tipoVia);
+        direccion.setNombreVia(nombreVia);
+        direccion.setNumero(numero);
+        direccion.setPisoPortal(pisoPortal);
+        direccion.setCodigoPostal(codigoPostal);
+        direccion.setLocalidad(localidad);
+        direccion.setProvincia(provincia);
+
+        // Envías el objeto dirección a tu servicio (debes actualizar el método en tu Service)
         boolean ok = inmuebleService.registrarInmueble(
                 usuario,
                 titulo,
-                direccion,
+                direccion, // Cambiado el String por el objeto Direccion
                 descripcion,
                 precio,
                 reservaDirecta,
-                ciudad,
                 numHabitaciones,
                 numBanos,
                 politicaCancelacion

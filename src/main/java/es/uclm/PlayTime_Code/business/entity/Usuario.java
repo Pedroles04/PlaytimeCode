@@ -19,7 +19,12 @@ public class Usuario {
     private String pass;
     private String nombre;
     private String apellidos;
-    private String direccion;
+    @Embedded
+    private Direccion direccion;
+
+    // Cambia el Getter y Setter para usar el nuevo objeto
+    public Direccion getDireccion() { return direccion; }
+    public void setDireccion(Direccion direccion) { this.direccion = direccion; }
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rol rol;
@@ -40,8 +45,6 @@ public class Usuario {
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getApellidos() { return apellidos; }
     public void setApellidos(String apellidos) { this.apellidos = apellidos; }
-    public String getDireccion() { return direccion; }
-    public void setDireccion(String direccion) { this.direccion = direccion; }
     public Rol getRol() { return rol; }
     public void setRol(Rol rol) { this.rol = rol; }
     // Métodos de ayuda

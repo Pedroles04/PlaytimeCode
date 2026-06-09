@@ -1,11 +1,9 @@
 package es.uclm.PlayTime_Code.business.service;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion; // NUEVO IMPORT
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.PoliticaCancelacion;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
@@ -19,16 +17,17 @@ public class InmuebleService {
     @Autowired
     private InmuebleDAO inmuebleDAO;
 
-    public boolean registrarInmueble(Usuario propietario, String titulo, String direccion, String descripcion,
-            double precio, boolean reservaDirecta, String ciudad,
+    // Firma modificada: Cambiado String direccion por Direccion direccion, y eliminado String ciudad
+    public boolean registrarInmueble(Usuario propietario, String titulo, Direccion direccion, String descripcion,
+            double precio, boolean reservaDirecta,
             int numHabitaciones, int numBanos,
             PoliticaCancelacion politicaCancelacion) {
 			try {
 				Inmueble inmueble = new Inmueble();
 				inmueble.setPropietario(propietario);
 				inmueble.setTitulo(titulo);
-				inmueble.setDireccion(direccion);
-				inmueble.setCiudad(ciudad);
+				inmueble.setDireccion(direccion); // Setea el objeto embebido directamente
+				// inmueble.setCiudad(ciudad); <- ELIMINADO porque la localidad va dentro de direccion
 				inmueble.setDescripcion(descripcion);
 				inmueble.setPrecioPorNoche(precio);
 				inmueble.setReservaInmediata(reservaDirecta);
@@ -43,15 +42,15 @@ public class InmuebleService {
 			}
     }
 
-
+    // Sobrecarga modificada para adaptarse al nuevo objeto Direccion
     public boolean registrarInmueble(Usuario propietario,
                                      String titulo,
-                                     String direccion,
+                                     Direccion direccion,
                                      String descripcion,
                                      double precioPorNoche,
                                      boolean reservaDirecta) {
         return registrarInmueble(propietario, titulo, direccion, descripcion,
-                precioPorNoche, reservaDirecta, "", 0, 0, PoliticaCancelacion.REEMBOLSABLE);
+                precioPorNoche, reservaDirecta, 0, 0, PoliticaCancelacion.REEMBOLSABLE);
     }
     
     public void eliminar(Long id) {
@@ -60,8 +59,6 @@ public class InmuebleService {
             inmuebleDAO.eliminar(inmueble);
         }
     }
-    
-
 
     public List<Inmueble> listarTodos() {
         return inmuebleDAO.listarTodos();

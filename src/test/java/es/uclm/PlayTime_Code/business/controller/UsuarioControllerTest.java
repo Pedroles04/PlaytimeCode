@@ -1,5 +1,6 @@
 package es.uclm.PlayTime_Code.business.controller;
 
+import es.uclm.PlayTime_Code.business.entity.Direccion;
 import es.uclm.PlayTime_Code.business.entity.Rol;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.business.service.UsuarioService;
@@ -39,26 +40,21 @@ class UsuarioControllerTest {
 
     @Test
     void mostrarLogin_devuelveVistaLogin() {
-
-        String resultado =
-                usuarioController.mostrarLogin(model);
-
+        String resultado = usuarioController.mostrarLogin(model);
         assertEquals("login", resultado);
     }
 
     @Test
     void iniciarSesion_credencialesIncorrectas_devuelveLogin() {
-
         when(usuarioService.iniciarSesion("ana", "1234"))
                 .thenReturn(null);
 
-        String resultado =
-                usuarioController.iniciarSesion(
-                        "ana",
-                        "1234",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.iniciarSesion(
+                "ana",
+                "1234",
+                model,
+                session
+        );
 
         assertEquals("login", resultado);
 
@@ -70,20 +66,18 @@ class UsuarioControllerTest {
 
     @Test
     void iniciarSesion_propietario_redirigeInicioPropietario() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.PROPIETARIO);
 
         when(usuarioService.iniciarSesion("ana", "1234"))
                 .thenReturn(usuario);
 
-        String resultado =
-                usuarioController.iniciarSesion(
-                        "ana",
-                        "1234",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.iniciarSesion(
+                "ana",
+                "1234",
+                model,
+                session
+        );
 
         assertEquals(
                 "redirect:/propietario/inicio",
@@ -96,20 +90,18 @@ class UsuarioControllerTest {
 
     @Test
     void iniciarSesion_inquilino_redirigeInicioInquilino() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.INQUILINO);
 
         when(usuarioService.iniciarSesion("ana", "1234"))
                 .thenReturn(usuario);
 
-        String resultado =
-                usuarioController.iniciarSesion(
-                        "ana",
-                        "1234",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.iniciarSesion(
+                "ana",
+                "1234",
+                model,
+                session
+        );
 
         assertEquals(
                 "redirect:/inquilino/inicio",
@@ -119,20 +111,18 @@ class UsuarioControllerTest {
 
     @Test
     void iniciarSesion_usuarioNormal_redirigeHome() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.USUARIO_NORMAL);
 
         when(usuarioService.iniciarSesion("ana", "1234"))
                 .thenReturn(usuario);
 
-        String resultado =
-                usuarioController.iniciarSesion(
-                        "ana",
-                        "1234",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.iniciarSesion(
+                "ana",
+                "1234",
+                model,
+                session
+        );
 
         assertEquals(
                 "redirect:/home",
@@ -142,36 +132,26 @@ class UsuarioControllerTest {
 
     @Test
     void mostrarRegistro_devuelveVistaRegistro() {
-
-        String resultado =
-                usuarioController.mostrarRegistro();
-
+        String resultado = usuarioController.mostrarRegistro();
         assertEquals("registro", resultado);
     }
 
     @Test
     void registrarUsuario_errorDevuelveRegistro() {
-
         when(usuarioService.registrarUsuario(
                 anyString(),
                 anyString(),
                 anyString(),
                 anyString(),
-                anyString(),
+                any(Direccion.class),
                 anyString()
         )).thenReturn(false);
 
-        String resultado =
-                usuarioController.registrarUsuario(
-                        "ana",
-                        "1234",
-                        "Ana",
-                        "García",
-                        "Calle Mayor",
-                        "INQUILINO",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.registrarUsuario(
+                "ana", "1234", "Ana", "García",
+                "Calle Mayor", "10", "1A", "13001", "Ciudad Real", "Ciudad Real", "España", "INQUILINO",
+                model, session
+        );
 
         assertEquals("registro", resultado);
 
@@ -183,7 +163,6 @@ class UsuarioControllerTest {
 
     @Test
     void registrarUsuario_propietario_redirigeInicioPropietario() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.PROPIETARIO);
 
@@ -192,24 +171,18 @@ class UsuarioControllerTest {
                 anyString(),
                 anyString(),
                 anyString(),
-                anyString(),
+                any(Direccion.class),
                 anyString()
         )).thenReturn(true);
 
         when(usuarioService.iniciarSesion("ana", "1234"))
                 .thenReturn(usuario);
 
-        String resultado =
-                usuarioController.registrarUsuario(
-                        "ana",
-                        "1234",
-                        "Ana",
-                        "García",
-                        "Calle Mayor",
-                        "PROPIETARIO",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.registrarUsuario(
+                "ana", "1234", "Ana", "García",
+                "Calle Mayor", "10", "1A", "13001", "Ciudad Real", "Ciudad Real", "España", "PROPIETARIO",
+                model, session
+        );
 
         assertEquals(
                 "redirect:/propietario/inicio",
@@ -222,7 +195,6 @@ class UsuarioControllerTest {
 
     @Test
     void registrarUsuario_inquilino_redirigeInicioInquilino() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.INQUILINO);
 
@@ -231,24 +203,18 @@ class UsuarioControllerTest {
                 anyString(),
                 anyString(),
                 anyString(),
-                anyString(),
+                any(Direccion.class),
                 anyString()
         )).thenReturn(true);
 
         when(usuarioService.iniciarSesion("ana", "1234"))
                 .thenReturn(usuario);
 
-        String resultado =
-                usuarioController.registrarUsuario(
-                        "ana",
-                        "1234",
-                        "Ana",
-                        "García",
-                        "Calle Mayor",
-                        "INQUILINO",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.registrarUsuario(
+                "ana", "1234", "Ana", "García",
+                "Calle Mayor", "10", "1A", "13001", "Ciudad Real", "Ciudad Real", "España", "INQUILINO",
+                model, session
+        );
 
         assertEquals(
                 "redirect:/inquilino/inicio",
@@ -258,7 +224,6 @@ class UsuarioControllerTest {
 
     @Test
     void registrarUsuario_usuarioNormal_redirigeHome() {
-
         Usuario usuario = new Usuario();
         usuario.setRol(Rol.USUARIO_NORMAL);
 
@@ -267,24 +232,18 @@ class UsuarioControllerTest {
                 anyString(),
                 anyString(),
                 anyString(),
-                anyString(),
+                any(Direccion.class),
                 anyString()
         )).thenReturn(true);
 
         when(usuarioService.iniciarSesion("ana", "1234"))
                 .thenReturn(usuario);
 
-        String resultado =
-                usuarioController.registrarUsuario(
-                        "ana",
-                        "1234",
-                        "Ana",
-                        "García",
-                        "Calle Mayor",
-                        "USUARIO_NORMAL",
-                        model,
-                        session
-                );
+        String resultado = usuarioController.registrarUsuario(
+                "ana", "1234", "Ana", "García",
+                "Calle Mayor", "10", "1A", "13001", "Ciudad Real", "Ciudad Real", "España", "USUARIO_NORMAL",
+                model, session
+        );
 
         assertEquals(
                 "redirect:/home",
@@ -294,12 +253,10 @@ class UsuarioControllerTest {
 
     @Test
     void cerrarSesion_invalidaSesionYRedirigeHome() {
-
-        String resultado =
-                usuarioController.cerrarSesion(
-                        status,
-                        session
-                );
+        String resultado = usuarioController.cerrarSesion(
+                status,
+                session
+        );
 
         assertEquals(
                 "redirect:/home",
