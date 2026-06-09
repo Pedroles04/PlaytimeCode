@@ -23,13 +23,14 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/inquilino")
-@SessionAttributes("usuarioActual")
+@SessionAttributes(AlquilarController.USUARIO_ACTUAL)
 public class AlquilarController {
+
+    static final String USUARIO_ACTUAL = "usuarioActual";
 
     private final InmuebleService inmuebleService;
     private final ReservaService reservaService;
 
-    // ✅ Constructor injection (corrige los 2 @Autowired field injection)
     public AlquilarController(InmuebleService inmuebleService, ReservaService reservaService) {
         this.inmuebleService = inmuebleService;
         this.reservaService = reservaService;
@@ -40,7 +41,7 @@ public class AlquilarController {
                                       HttpSession session,
                                       Model model) {
 
-        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuarioActual = (Usuario) session.getAttribute(USUARIO_ACTUAL);
         if (usuarioActual == null) return "redirect:/usuarios/login";
 
         Inmueble inmueble = inmuebleService.buscarPorId(id);
@@ -50,7 +51,7 @@ public class AlquilarController {
 
         model.addAttribute("inmueble", inmueble);
         model.addAttribute("fechasOcupadas", fechasOcupadas);
-        model.addAttribute("usuarioActual", usuarioActual);
+        model.addAttribute(USUARIO_ACTUAL, usuarioActual);
 
         return "menu_alquilar";
     }
@@ -61,9 +62,9 @@ public class AlquilarController {
                                @RequestParam(required = false) String metodoPago,
                                HttpSession session,
                                Model model,
-                               SessionStatus sessionStatus) { // ✅ añadido
+                               SessionStatus sessionStatus) {
 
-        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuarioActual = (Usuario) session.getAttribute(USUARIO_ACTUAL);
         if (usuarioActual == null) {
             model.addAttribute("error", "❌ Debes iniciar sesión para reservar.");
             return "redirect:/usuarios/login";
@@ -74,7 +75,7 @@ public class AlquilarController {
 
         model.addAttribute("inmueble", inmueble);
         model.addAttribute("fechasOcupadas", fechasOcupadas);
-        model.addAttribute("usuarioActual", usuarioActual);
+        model.addAttribute(USUARIO_ACTUAL, usuarioActual);
 
         try {
             String[] fechas = rangoFechas.split(" to ");
@@ -107,7 +108,7 @@ public class AlquilarController {
             model.addAttribute("error", "❌ Error al crear la reserva: " + e.getMessage());
         }
 
-        sessionStatus.setComplete(); // ✅ limpia la sesión al finalizar el flujo
+        sessionStatus.setComplete();
         return "redirect:/inquilino/inicio";
     }
 }
