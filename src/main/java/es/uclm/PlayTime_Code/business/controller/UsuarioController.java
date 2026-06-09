@@ -36,7 +36,7 @@ public class UsuarioController {
                                 HttpSession session) {
         Usuario usuario = usuarioService.iniciarSesion(login, pass);
         if (usuario == null) {
-            model.addAttribute("error", "❌ Credenciales incorrectas");
+            model.addAttribute("error", "Credenciales incorrectas");
             return "login";
         }
         session.setAttribute(USUARIO_ACTUAL, usuario);
@@ -66,7 +66,7 @@ public class UsuarioController {
                                    HttpSession session) {
         boolean ok = usuarioService.registrarUsuario(login, pass, nombre, apellidos, direccion, rol);
         if (!ok) {
-            model.addAttribute("error", "❌ Error al registrar usuario (login existente o rol inválido)");
+            model.addAttribute("error", "Error al registrar usuario (login existente o rol inválido)");
             return "registro";
         }
         Usuario usuario = usuarioService.iniciarSesion(login, pass);

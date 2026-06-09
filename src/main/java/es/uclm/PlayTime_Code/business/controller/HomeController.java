@@ -36,13 +36,16 @@ public class HomeController {
                               @RequestParam(required = false) String tipoReserva,
                               @RequestParam(required = false) String tipoReembolso,
                               HttpSession session,
+
                               Model model,
                               SessionStatus sessionStatus) { // ✅ añadido
+
 
         Usuario usuarioActual = (Usuario) session.getAttribute(USUARIO_ACTUAL);
 
         // 🔎 Filtros dinámicos
         List<Inmueble> inmuebles = inmuebleService.listarTodos();
+
 
         inmuebles = aplicarFiltros(inmuebles, search, ciudad, habitaciones, banos, tipoReserva, tipoReembolso);
 

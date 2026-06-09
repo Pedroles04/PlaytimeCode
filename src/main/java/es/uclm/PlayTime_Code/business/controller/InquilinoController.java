@@ -80,8 +80,8 @@ public class InquilinoController {
         Inmueble inmueble = inmuebleService.buscarPorId(id);
 
         if (usuario != null && inmueble != null) {
-            if (!usuario.getListaDeseos().contains(inmueble)) {
-                usuario.getListaDeseos().add(inmueble);
+            if (!usuario.getDeseosList().contains(inmueble)) {
+                usuario.getDeseosList().add(inmueble);
                 usuarioService.guardar(usuario);
             }
         }

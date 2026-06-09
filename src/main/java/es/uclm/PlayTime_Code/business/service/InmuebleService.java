@@ -34,7 +34,7 @@ public class InmuebleService {
 				inmueble.setReservaInmediata(reservaDirecta);
 				inmueble.setNumHabitaciones(numHabitaciones);
 				inmueble.setNumBanos(numBanos);
-				inmueble.setPoliticaCancelacion(politicaCancelacion); // 🔹 Nuevo campo
+				inmueble.setPoliticaCancelacion(politicaCancelacion); 
 				inmuebleDAO.guardar(inmueble);
 				return true;
 			} catch (Exception e) {

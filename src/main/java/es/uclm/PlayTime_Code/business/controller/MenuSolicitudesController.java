@@ -12,6 +12,7 @@ import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
 import es.uclm.PlayTime_Code.business.service.InmuebleService;
+import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.service.ReservaService;
 
 @Controller

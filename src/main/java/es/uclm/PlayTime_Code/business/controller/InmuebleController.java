@@ -70,10 +70,10 @@ public class InmuebleController {
         );
 
         if (ok) {
-            model.addAttribute("mensaje", "✅ Inmueble registrado correctamente");
+            model.addAttribute("mensaje", "Inmueble registrado correctamente");
             return "redirect:/propietario/inicio";
         } else {
-            model.addAttribute(ERROR, "❌ Error al registrar inmueble (verifica tu rol o datos)");
+            model.addAttribute(ERROR, " Error al registrar inmueble (verifica tu rol o datos)");
             return "registrar_inmueble";
         }
     }

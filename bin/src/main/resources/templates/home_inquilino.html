@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>*Inquilino - Inicio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #d9d9d9;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .user-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .search-section {
+            display: flex;
+            gap: 0;
+            flex: 1;
+            max-width: 800px;
+            margin: 0 40px;
+            align-items: center;
+        }
+
+        .search-box {
+            background-color: white;
+            border-radius: 25px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .search-icon {
+            background-color: #e91e63;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .filter-icon {
+            background-color: #2196F3;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            margin-left: 15px;
+        }
+
+        .filter-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .filter-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 20px;
+            min-width: 200px;
+            z-index: 100;
+        }
+
+        .filter-dropdown.active {
+            display: block;
+        }
+
+        .filter-option {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            background-color: #e0e0e0;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .filter-option:hover {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .icon-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .wishlist-icon {
+            background-color: #FFD700;
+        }
+
+        .menu-icon {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .menu-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 10px;
+            min-width: 180px;
+            z-index: 100;
+        }
+
+        .menu-dropdown.active {
+            display: block;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .menu-item:hover {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .inmuebles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .inmueble-card {
+            background-color: transparent;
+            border: 3px solid #4CAF50;
+            border-radius: 8px;
+            height: 250px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .inmueble-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-dropdown {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 10px;
+            min-width: 180px;
+            z-index: 10;
+        }
+
+        .card-dropdown.active {
+            display: block;
+        }
+
+        .card-option {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            background-color: #e0e0e0;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .card-option:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .star {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+   			 <span th:text="${usuarioActual.nombre}">Nombre Usuario</span>
+        </div>
+        
+		
+        <div class="search-section">
+            <div class="search-container">
+            <form th:action="@{/inquilino/inicio}" method="get" style="display: contents;">
+                <div class="search-box">
+					<input type="text" name="search" th:value="${busqueda}" placeholder="Buscar inmuebles...">
+                    <div class="filter-icon" onclick="toggleFilter()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                        <div class="filter-dropdown" id="filterDropdown" onclick="event.stopPropagation()">
+                            <div class="filter-group">
+                                <label>Baños</label>
+                                <input type="number" name="banos" th:value="${banos}" min="1" placeholder="Número de baños">
+                            </div>
+                            <div class="filter-group">
+                                <label>Ciudad</label>
+                                <select name="ciudad">
+                                    <option value="">Seleccionar ciudad</option>
+                                    <option th:each="ciudad : ${ciudades}" 
+                                            th:value="${ciudad}" 
+                                            th:text="${ciudad}"
+                                            th:selected="${ciudad == ciudadSeleccionada}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Habitaciones</label>
+                                <input type="number" name="habitaciones" th:value="${habitaciones}" min="1" placeholder="Número de habitaciones">
+                            </div>
+							
+							<div class="filter-group">
+							    <label>Tipo de reserva</label>
+							    <select name="tipoReserva">
+							        <option value="">Cualquiera</option>
+							        <option value="directa" th:selected="${tipoReserva == 'directa'}">Directa</option>
+							        <option value="no_directa" th:selected="${tipoReserva == 'no_directa'}">No directa</option>
+							    </select>
+							</div>
+
+							<div class="filter-group">
+							    <label>Tipo de reembolso</label>
+							    <select name="tipoReembolso">
+							        <option value="">Cualquiera</option>
+							        <option value="REEMBOLSABLE" th:selected="${tipoReembolso == 'REEMBOLSABLE'}">Reembolsable</option>
+							        <option value="REEMBOLSABLE_50" th:selected="${tipoReembolso == 'REEMBOLSABLE_50'}">50% Reembolso</option>
+							        <option value="NO_REEMBOLSABLE" th:selected="${tipoReembolso == 'NO_REEMBOLSABLE'}">No reembolsable</option>
+							    </select>
+							</div>
+
+                        </div>
+                    </div>
+                    <button type="submit" class="search-icon" style="border: none; background-color: #2196F3;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+        </div>
+
+        <div class="icon-button wishlist-icon">
+		    <a th:href="@{/inquilino/deseos}">
+		        <svg class="star" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFA500" stroke-width="1">
+		            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"></polygon>
+		        </svg>
+		    </a>
+		</div>
+
+
+            
+            <div class="icon-button menu-icon" onclick="toggleMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <div class="menu-item"><a th:href="@{/inquilino/historial}">Historial de Reservas</a></div>
+                    <div class="menu-item"><a th:href="@{/usuarios/logout}">Cerrar sesión</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-title">Inmuebles</div>
+        
+        <div class="inmuebles-grid">
+    		<div th:each="inmueble : ${inmuebles}" class="inmueble-card">
+        		<div style="padding: 15px;">
+           			 <h3 th:text="${inmueble.titulo}">Título del inmueble</h3>
+			         <p th:text="${inmueble.descripcion}">Descripción</p>
+			         <p><strong>Ciudad:</strong> <span th:text="${inmueble.ciudad}"></span></p>
+			         <p><strong>Habitaciones:</strong> <span th:text="${inmueble.numHabitaciones}"></span></p>
+			         <p><strong>Baños:</strong> <span th:text="${inmueble.numBanos}"></span></p>
+			         <p><strong>Precio:</strong> <span th:text="${inmueble.precioPorNoche}"></span> €/noche</p>
+     
+        		</div>
+        		<div th:if="${!usuarioActual.listaDeseos.contains(inmueble)}">
+				    <form th:action="@{/inquilino/deseos/agregar/{id}(id=${inmueble.id})}" method="post">
+				        <button type="submit" style="background:#FFD700;border:none;padding:8px;border-radius:6px;cursor:pointer;">
+				            ⭐ Añadir a deseos
+				        </button>
+				    </form>
+				</div>
+				
+				<div>
+					<form th:action="@{/inquilino/alquilar/{id}(id=${inmueble.id})}" method="get">
+					    <button type="submit"
+					        style="background:#4CAF50;color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;margin-top:5px;">
+					        Alquilar
+					    </button>
+					</form>
+				</div>
+				
+				<div th:if="${usuarioActual.listaDeseos.contains(inmueble)}">
+				    <form th:action="@{/inquilino/deseos/eliminar/{id}(id=${inmueble.id})}" method="post">
+				        <button type="submit" style="background:#ccc;border:none;padding:8px;border-radius:6px;cursor:pointer;">
+				            ❌ Quitar de deseos
+				        </button>
+				    </form>
+				</div>
+
+        		
+    		</div>
+		</div>
+
+    </div>
+    <script>
+        function toggleMenu() {
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function toggleFilter() {
+            event.stopPropagation();
+            const dropdown = document.getElementById('filterDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Cerrar dropdowns al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            const menuIcon = event.target.closest('.menu-icon');
+            const filterIcon = event.target.closest('.filter-icon');
+            
+            if (!menuIcon) {
+                document.getElementById('menuDropdown').classList.remove('active');
+            }
+            if (!filterIcon) {
+                document.getElementById('filterDropdown').classList.remove('active');
+            }
+        });
+    </script>
+    <script>
+		function agregarADeseos(id) {
+		    fetch(`/inquilino/deseos/agregar/${id}`, { method: 'POST' })
+		        .then(() => location.reload());
+		}
+		
+		function eliminarDeDeseos(id) {
+		    fetch(`/inquilino/deseos/eliminar/${id}`, { method: 'POST' })
+		        .then(() => location.reload());
+		}
+		
+		// Botón de estrella en el header
+		document.querySelector('.wishlist-icon').addEventListener('click', () => {
+		    window.location.href = '/inquilino/deseos';
+		});
+	</script>
+
+    
+</body>
+</html>

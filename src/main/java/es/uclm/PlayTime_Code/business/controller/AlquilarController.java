@@ -69,7 +69,10 @@ public class AlquilarController {
 
         Usuario usuarioActual = (Usuario) session.getAttribute(USUARIO_ACTUAL);
         if (usuarioActual == null) {
-            model.addAttribute(ERROR, "❌ Debes iniciar sesión para reservar.");
+
+            model.addAttribute(ERROR, " Debes iniciar sesión para reservar.");
+
+
             return "redirect:/usuarios/login";
         }
 
@@ -83,8 +86,10 @@ public class AlquilarController {
         try {
             String[] fechas = rangoFechas.split(" to ");
             if (fechas.length != 2) {
-                model.addAttribute(ERROR, "❌ Rango de fechas inválido.");
+
+                model.addAttribute(ERROR, " Rango de fechas inválido.");
                 return MENU_ALQUILAR;
+
             }
 
             LocalDate inicio = LocalDate.parse(fechas[0], DateTimeFormatter.ISO_DATE);
@@ -93,14 +98,16 @@ public class AlquilarController {
             Reserva reserva;
             if (inmueble.isReservaInmediata()) {
                 if (metodoPago == null || metodoPago.isBlank()) {
-                    model.addAttribute(ERROR, "❌ Debes seleccionar un método de pago.");
+
+                    model.addAttribute(ERROR, " Debes seleccionar un método de pago.");
                     return MENU_ALQUILAR;
                 }
+
                 reserva = reservaService.crearReserva(usuarioActual.getId(), id, inicio, fin);
-                model.addAttribute("mensaje", "✅ Reserva creada correctamente. Estado: " + reserva.getEstado());
+                model.addAttribute("mensaje", "Reserva creada correctamente. Estado: " + reserva.getEstado());
             } else {
                 reserva = reservaService.crearSolicitudReserva(usuarioActual.getId(), id, inicio, fin);
-                model.addAttribute("mensaje", "⏳ Solicitud enviada. Pendiente de confirmación del propietario.");
+                model.addAttribute("mensaje", "Solicitud enviada. Pendiente de confirmación del propietario.");
             }
 
             fechasOcupadas = reservaService.obtenerFechasOcupadas(id);
@@ -108,7 +115,8 @@ public class AlquilarController {
             model.addAttribute("reserva", reserva);
 
         } catch (Exception e) {
-            model.addAttribute(ERROR, "❌ Error al crear la reserva: " + e.getMessage());
+            model.addAttribute(ERROR, " Error al crear la reserva: " + e.getMessage());
+
         }
 
         return "redirect:/inquilino/inicio";
