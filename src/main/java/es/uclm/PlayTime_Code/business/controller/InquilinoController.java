@@ -2,7 +2,6 @@ package es.uclm.PlayTime_Code.business.controller;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.hibernate.engine.jndi.spi.JndiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import es.uclm.PlayTime_Code.business.entity.Inmueble;
 import es.uclm.PlayTime_Code.business.entity.Reserva;
 import es.uclm.PlayTime_Code.business.entity.Usuario;
-import es.uclm.PlayTime_Code.business.service.InmuebleService;
-import es.uclm.PlayTime_Code.business.service.UsuarioService;
+import es.uclm.PlayTime_Code.business.service.*;
 
 import java.util.*;
 
@@ -31,7 +29,7 @@ public class InquilinoController {
     private UsuarioService usuarioService;
 
     @Autowired
-    private JndiService reservaService;
+    private ReservaService reservaService;
 
     private Map<Long, Set<Long>> listaDeseosPorUsuario = new HashMap<>();
 
